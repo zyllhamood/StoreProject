@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags%}
+
+{% block content %}
+<div class="container">
+    <form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div style="padding: 15px;" class="container">
+            <!-- {{ dis | safe }} -->
+            <!-- {{ form|crispy }}
+            {{ form.as_ul }} -->
+            <!-- <input type="text" name="div_id_name" id="div_id_name"> -->
+            <div style="width:fit-content;margin: 5px;" class="form-control">
+                {{form.name}}
+            </div>
+            
+            <div style="width:fit-content;margin: 5px;" class="form-control">
+                {{form.dis|safe}}
+            </div>
+            <div style="width:fit-content;margin: 5px;" class="form-control">
+                {{form.id_place}}
+            </div>
+            <div style="width:fit-content;margin: 5px;" class="form-control">
+                {{form.price}}
+            </div>
+            <div style="width:fit-content;margin: 5px;" class="form-control">
+                {{form.image}}
+            </div>
+            <div style="width:fit-content;margin: 5px;" class="form-control">
+                <input style="width: 200px;" class="btn btn-primary" type="submit" value="Edit">
+            </div>
+            
+            
+        </div>
+    </form>
+</div>
+
+{% endblock content %}
+
+    
