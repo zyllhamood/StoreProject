@@ -13,10 +13,12 @@ from .serializers import ProductSerializer
 from .forms import ProductForm,ProductFormPK
 class ProductView(ListCreateAPIView):
     queryset = Product.objects.all()
+    permission_classes = [IsAuthenticated]
     serializer_class = ProductSerializer
     throttle_classes = [AnonRateThrottle]
 class ProductViewPK(RetrieveUpdateDestroyAPIView):
     queryset = Product.objects.all()
+    permission_classes = [IsAuthenticated]
     serializer_class = ProductSerializer
     throttle_classes = [AnonRateThrottle]
 def home(request):
@@ -45,3 +47,6 @@ class EditProduct(UpdateView):
     template_name = 'edit-product.html'
     success_url = '/'
 
+
+def error_404_view(request,exception):
+    return render(request,'404.html')
