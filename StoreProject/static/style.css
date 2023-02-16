@@ -1,18 +1,15 @@
-/* #id_name{
-  background-color: aqua;
-  color:red;
-} */
+
 .btn-home-me{
   margin-left:20px;
   margin-right: 10px;
     padding:09px 25px;
-    background-color: rgba(0,136,169,1);
+    background-color: rgb(130, 130, 130);
     border-radius:50px;
-    color: white;
+    color: rgb(0, 0, 0);
     font-family: "montserrat", sans-serif;
     font-weight: 500;
     font-size: 16px;
-    color:#edf0f1;
+    color:#000000;
     text-decoration: none ;
 }
 
@@ -45,7 +42,7 @@
 .clsFontTitle {
     font-size: 1.1em;
     font-weight: bolder;
-    background-color: #bbbbbb;
+    background-color: rgb(130, 130, 130);
     margin-top: 10px;
     border: solid;
     border-style:calc();
