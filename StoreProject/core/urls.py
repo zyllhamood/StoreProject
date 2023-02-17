@@ -10,8 +10,4 @@ urlpatterns = [
     path('info/<int:pk>',info,name='info'),
     path('new/',login_required(NewProduct.as_view())),
     path('edit/<int:pk>',login_required(EditProduct.as_view()),name = 'edit'),
-    #path('summernote/', include('django_summernote.urls'))
 ]
-
-# if settings.DEBUG:
-#     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
