@@ -12,3 +12,8 @@ class Product(models.Model):
     def __str__(self):
         return self.name
     
+class GroupProduct(models.Model):
+    title = models.CharField(max_length=255)
+    product = models.ManyToManyField(Product)
+    def __str__(self):
+        return self.title

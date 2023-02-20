@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block content %}
+<div class="container">
+    <div style="background-color: silver;" class="shop-card">
+        <div class="clsFontName">
+            {{form.name}}
+        </div>
+        <div class="clsFontPrice">
+            {{form.price}}$
+          </div>
+        <div>
+            Please Choose Your Payment Method : 
+            <div id="payment-method">
+                <a href="{{ charge.hosted_url }}" id="buttonPayment"><img src="{% static 'images/btc.png' %}" style="width: 25px;" >  <img src="{% static 'images/usdt.png' %}" style="width: 25px;" >  <img src="{% static 'images/eth.png' %}" style="width: 25px;" ></a>
+            </div>
+            <div id="payment-method">
+                <a href="" id="buttonPayment"><img src="{% static 'images/paypal2.png' %}" style="width: 70px;height: 30px;"></a>
+            </div>
+            <div id="payment-method">
+                <a href="" id="buttonPayment"><img src="{% static 'images/stc-pay.png' %}" style="width: 70px;height: 15px;"></a>
+            </div>
+        </div>
+
+    </div>
+    
+</div>
+
+
+{% endblock content %}
+    
+
+    

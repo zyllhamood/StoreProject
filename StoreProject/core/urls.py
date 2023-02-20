@@ -10,4 +10,6 @@ urlpatterns = [
     path('info/<int:pk>',info,name='info'),
     path('new/',login_required(NewProduct.as_view())),
     path('edit/<int:pk>',login_required(EditProduct.as_view()),name = 'edit'),
+    path('groups/<str:title>',groups_view,name='group-url'),
+    #path('payment/<int:pk>',payment_view)
 ]

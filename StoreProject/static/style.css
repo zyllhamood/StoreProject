@@ -12,7 +12,42 @@
     color:#000000;
     text-decoration: none ;
 }
-
+#groupItem{
+  background-color: #1c2260;
+  color: #fff;
+  margin-right: 1rem;
+  border-radius: .25rem;
+  margin-top: 1rem !important;
+  display: block;
+padding: .5rem 1rem;
+text-decoration: none;
+box-sizing: border-box;
+text-rendering: optimizeLegibility;
+font-weight: 400;
+line-height: 1.5;
+text-align: left;
+margin: 0;
+margin: 0 auto;
+display:inline-block;;
+}
+#buttonPayment{
+  background-color: #2e2e2e;
+  color: #fff;
+  margin-right: 1rem;
+  border-radius: .25rem;
+  margin-top: 1rem !important;
+  display: block;
+padding: .5rem 1rem;
+text-decoration: none;
+box-sizing: border-box;
+text-rendering: optimizeLegibility;
+font-weight: 400;
+line-height: 1.5;
+text-align: left;
+margin: 0;
+margin: 0 auto;
+display:inline-block;;
+}
 .shop-card {
    
     /* width: 350px; */
@@ -37,6 +72,12 @@
     font-size: 2em;
     font-weight: bolder;
     margin-top: 3px;
+    color:rgb(61, 61, 61)
+  }
+  #payment-method{
+    font-size: 1em;
+    font-weight: bolder;
+    margin: 20px;
     color:rgb(61, 61, 61)
   }
 .clsFontTitle {
@@ -131,46 +172,3 @@
   grid-template-rows: auto auto 1fr auto auto;
   grid-template-areas: "header" "left" "main" "right" "footer";
 }
-
-/* @media (min-width: 440px) {
-  .container {
-    grid-template-columns: 150px 1fr 150px;
-    grid-template-rows: auto 1fr auto;
-    grid-template-areas: "header header header" "left main right" "footer footer footer";
-  }
-}
-
-.header {
-  grid-area: header;
-  padding: 10px;
-  background-color: black;
-  color: #fff;
-  text-align: center;
-}
-
-.main {
-  grid-area: main;
-  padding: 25px;
-}
-
-.left {
-  grid-area: left;
-  background-color: peachpuff;
-}
-
-.right {
-  grid-area: right;
-}
-
-.footer {
-  grid-area: footer;
-  padding: 10px;
-  background-color: black;
-  color: #fff;
-  text-align: center;
-}
-
-.sidebar {
-  padding: 25px;
-  background-color: darkcyan;
-} */
