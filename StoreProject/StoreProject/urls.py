@@ -25,8 +25,8 @@ urlpatterns = [
     #path('login/',LoginView.as_view(),name='login'),
     #path('logout/',LogoutView.as_view(),name='logouturl'),
     path('',include('core.urls')),
-    #path('auth/', include('djoser.urls')),
-    #path('auth/', include('djoser.urls.authtoken')),
+    path('auth/', include('djoser.urls')),
+    path('auth/', include('djoser.urls.authtoken')),
     path('summernote/', include('django_summernote.urls')),
     
 ]

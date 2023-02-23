@@ -1,5 +1,6 @@
 from django.shortcuts import render,redirect
 from rest_framework.response import Response
+from rest_framework.views import APIView
 from rest_framework.generics import ListCreateAPIView,RetrieveUpdateDestroyAPIView
 from rest_framework.throttling import AnonRateThrottle
 from rest_framework.permissions import IsAuthenticated
@@ -26,13 +27,16 @@ class ProductView(ListCreateAPIView):
     serializer_class = ProductSerializer
     throttle_classes = [AnonRateThrottle]
     
-class ProfileSerilaizerView(ListCreateAPIView):
+class ProfileSerilaizerView(APIView):
     queryset = Profile.objects.all()
     #permission_classes = [IsAuthenticated]
     serializer_class = ProfileSerializer
-    
+    # fields = ['email_or_username','product','serial']
     throttle_classes = [AnonRateThrottle]
-
+    def get(self,request):
+        model = Profile.objects.all()
+        serializer = ProfileSerializer(model,many=True)
+        return Response(serializer.data)
 class ProductViewPK(RetrieveUpdateDestroyAPIView):
     queryset = Product.objects.all()
     permission_classes = [IsAuthenticated]
@@ -47,14 +51,10 @@ def home(request):
 def info(request,pk=None):
     model = Product.objects.get(pk=pk)
     client = Client(api_key=settings.COINBASE_COMMERCE_API_KEY)
-    amount = 0.20
-    coupun = model.price * Decimal(amount)
-    coupun = model.price - coupun
-    coupun = '{:.2f}'.format(coupun)
     product = {
         'name': model.name,
         'local_price':{
-            'amount': str(coupun),
+            'amount': str(model.price),
             'currency': 'USD'
             } ,
         'pricing_type': 'fixed_price',
@@ -63,7 +63,6 @@ def info(request,pk=None):
 
     content = {
         "id": model,
-        "coupun": coupun,
         "charge": charge
         }
 
@@ -112,13 +111,8 @@ def payment_view(request,pk):
 
     }
     charge = client.charge.create(**product)
-    amount = 0.20
-    coupun = model.price * Decimal(amount)
-    coupun = model.price - coupun
-    coupun = '{:.2f}'.format(coupun)
     content = {
         "form": model,
-        "coupun": coupun,
         "charge": charge
         }
     return render(request,'payment-method.html',content)

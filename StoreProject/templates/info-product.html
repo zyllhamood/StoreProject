@@ -21,7 +21,7 @@
         <a style="margin-bottom: 10px;" href="{% url 'edit' pk=id.id %}" class="btn btn-secondary">Edit</a>
         <br>
         {% endif %} 
-            <a href="{{ charge.hosted_url }}" class="btn btn-dark" id="btnBuy">Before : <del>{{id.price}}</del> || Now : {{coupun}}$</a>
+            <a href="{{ charge.hosted_url }}" class="btn btn-dark" id="btnBuy">Buy it now for {{id.price}}$</a>
         </div>
         
     </div>
