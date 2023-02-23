@@ -3,6 +3,8 @@
 {% load crispy_forms_tags%}
 
 {% block content %}
+
+{% if user.is_authenticated and user.username == "admin" %}
 <div class="container">
     <form action="" method="post" enctype="multipart/form-data">
         {% csrf_token %}
@@ -35,7 +37,14 @@
         </div>
     </form>
 </div>
-
-{% endblock content %}
+    
+   
+    
+    
+        
 
     
+
+{% endif %}
+{% endblock content %}
+

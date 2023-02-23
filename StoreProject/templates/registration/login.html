@@ -1,0 +1,41 @@
+{% extends 'registration/base.html' %}
+{% load static %}
+
+
+{% block status %}
+{% if user.is_authenticated %}
+<a href="{% url 'logouturl' %}"><img src="{% static 'images/logout.png' %}" alt="" width="23" height="23"></a>
+{% else %}
+<a href="{% url 'loginurl' %}"><img src="{% static 'images/login.png' %}" alt="" width="23" height="23"></a>
+{% endif %}
+{% endblock status %}
+    
+{% block content %}
+
+{% if user.is_authenticated %}
+
+{% else %}
+<div class="container">
+    <div class="col-sm-3">
+        <div class="login-container" style="margin-top: 30px;">
+            <div class="circle circle-one"></div>
+            <div class="form-container">
+                <h1 style="color:black;" class="opacity">Login</h1>
+                <form method="post">
+                    {% csrf_token %}
+                    <input type="text" id="usernameVar" name="username" placeholder="USERNAME" />
+                    <input type="password" id="passwordVar" name="password" placeholder="PASSWORD" />
+                    <input style="color:black;" type="submit" class="opacity" value="Login">
+                </form>
+                
+            </div>
+            
+        </div>
+        
+    </div>
+    
+</div>
+{% endif %}
+    
+
+{% endblock content %}

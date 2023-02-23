@@ -134,7 +134,7 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication'
     ),
     'DEFAULT_THROTTLE_RATES': {
-        'anon':'2/minute'
+        'anon':'50/minute'
     }
 }
 
@@ -147,3 +147,6 @@ X_FRAME_OPTIONS = 'SAMEORIGIN'
 SUMMERNOTE_THEME = 'bs4' 
 
 COINBASE_COMMERCE_API_KEY = ''
+
+LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = '/'

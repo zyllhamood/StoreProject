@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block status %}
+{% if user.is_authenticated %}
+<a href="{% url 'logouturl' %}"><img src="{% static 'images/logout.png' %}" alt="" width="23" height="23"></a>
+{% else %}
+<a href="{% url 'loginurl' %}"><img src="{% static 'images/login.png' %}" alt="" width="23" height="23"></a>
+{% endif %}
+{% endblock status %}
+{% block content %}
+<form method="post" action="">
+    {% csrf_token %}
+
+    <div class="container">
+        <div style="background-color: silver;" class="shop-card">
+            {% if user.is_authenticated %}
+        
+            {% if '@' in user.profile.email_or_username %}
+            <div class="labelInfo">Email : {{user.profile.email_or_username}}</div>
+            {% else %}
+            <div class="labelInfo">Username : {{user.profile.email_or_username}}</div>
+            {% endif %}
+            <hr>
+            <div class="labelInfo">Products You Paid : </div>
+            {% for item in user.profile.product.all %}
+            <div class="labelInfo">- {{item.name}}</div>
+            {% endfor %}
+            <hr>
+            <div class="labelInfo">Your Serial : </div>
+            <div class="labelInfo">{{user.profile.serial}}</div>
+            <a class="labelInfo" style="padding-top: 40px;color:rgb(112, 78, 78);" href="{% url 'edit-profile' user.profile.id %}">Edit</a>
+            {% endif %}
+        </div>
+    </div>
+</form>
+
+{% endblock content %}
