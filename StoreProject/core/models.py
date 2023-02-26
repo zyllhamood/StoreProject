@@ -26,4 +26,12 @@ class Profile(models.Model):
     serial = models.CharField(max_length=1000,default='')
     
     
+class RDP(models.Model):
+    user = models.OneToOneField(User,on_delete=models.CASCADE)
+    inovie_rdp = models.IntegerField()
+    ip_rdp = models.CharField(max_length=50)
+    username_rdp = models.CharField(max_length=100)
+    password_rdp = models.CharField(max_length=255)
     
+    def __str__(self):
+        return self.ip_rdp

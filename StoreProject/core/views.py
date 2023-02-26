@@ -9,7 +9,7 @@ from rest_framework.decorators import throttle_classes,action,permission_classes
 from django.views.generic.list import ListView
 from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.decorators import login_required
-from .models import Product,GroupProduct,Profile
+from .models import Product,GroupProduct,Profile,RDP
 from .serializers import ProductSerializer,ProfileSerializer,UserSerializer
 from .forms import ProductForm,ProductFormPK,ProfileFormPK
 from decimal import Decimal
@@ -21,6 +21,8 @@ from django.contrib.auth import authenticate , login , logout
 from django.views import generic
 from django.contrib.auth.models import User
 from django.utils.decorators import method_decorator
+import requests
+from django.http import HttpResponse
 class ProductView(ListCreateAPIView):
     queryset = Product.objects.all()
     permission_classes = [IsAuthenticated]
@@ -163,3 +165,33 @@ class EditProfileView(generic.UpdateView):
     fields = ['serial']
     template_name = "edit-profile.html"
     success_url = '/profile/'
+
+def rdp_control(request):
+    model = RDP.objects.get(user=request.user)
+    #print(request.user.username)
+    #print(model.ip_rdp)
+    
+    
+    
+    
+    return render(request,'rdp-control.html',{"model": model})
+
+def action_rdp(request,action):
+    model = RDP.objects.get(user=request.user)
+    print(model.inovie_rdp)
+    url = f'https://hostdzire.com/billing/index.php?avmAction={action}&avmServiceId={str(model.inovie_rdp)}'
+    Headers = {
+        "Host": "hostdzire.com",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/110.0",
+        "Accept": "application/json, text/plain, */*",
+        "Accept-Language": "en-US,en;q=0.5",
+        #"Accept-Encoding": "gzip, deflate, br",
+        "Alt-Used": "hostdzire.com",
+        "Connection": "keep-alive",
+        "Cookie": "WHMCSuUM4sUcCcJns=cf2f997ccb1b9a09d56681bb817b20c9",
+    }
+    resp = requests.get(url, headers=Headers).text
+    if str(model.ip_rdp) in resp:
+        #return redirect('rdp')
+        return render(request,'rdp-control.html',{"model": model,"status": "true"})
+    return render(request,'rdp-control.html',{"model": model,"status": "false"})

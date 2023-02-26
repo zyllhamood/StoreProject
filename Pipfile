@@ -13,6 +13,7 @@ django-crispy-forms = "*"
 django-summernote = "*"
 python-decouple = "*"
 coinbase-commerce = "*"
+requests = "*"
 
 [dev-packages]
 

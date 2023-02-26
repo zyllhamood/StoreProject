@@ -1,6 +1,6 @@
 from django import forms
 from django_summernote.widgets import SummernoteWidget, SummernoteInplaceWidget
-from .models import Product,Profile
+from .models import Product,Profile,RDP
 from django.contrib.auth.models import User
 from django_summernote.fields import SummernoteTextFormField, SummernoteTextField
 from django_summernote.widgets import SummernoteWidget
@@ -22,4 +22,7 @@ class ProfileFormPK(forms.ModelForm):
         model = Profile
         fields = ('serial',)
     
-    
+# class RdpForm(forms.ModelForm):
+#     class Meta:
+#         model = RDP
+#         fields = ['']

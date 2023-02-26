@@ -24,11 +24,17 @@
             <div class="labelInfo">Products You Paid : </div>
             {% for item in user.profile.product.all %}
             <div class="labelInfo">- {{item.name}}</div>
+            
+            {% if 'RDP' in item.name %}
+            <a class="labelInfo" style="padding-top: 40px;color:rgb(112, 78, 78);" href="{% url 'rdp'%}">Control RDP</a>
+                
+            {% endif %}
+                
             {% endfor %}
             <hr>
             <div class="labelInfo">Your Serial : </div>
             <div class="labelInfo">{{user.profile.serial}}</div>
-            <a class="labelInfo" style="padding-top: 40px;color:rgb(112, 78, 78);" href="{% url 'edit-profile' user.profile.id %}">Edit</a>
+            <a class="labelInfo" style="padding-top: 40px;color:rgb(112, 78, 78);" href="{% url 'edit-profile' user.profile.id %}">Edit Serial</a>
             {% endif %}
         </div>
     </div>

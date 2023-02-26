@@ -20,7 +20,10 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(next_page='/'), name='logouturl'),
     path('profile/',login_required(ProfileView.as_view()),name='profile'),
     #path('userinfo/',profile_view,name='profile-view'),
-    path('edit-profile/<int:pk>',login_required(EditProfileView.as_view()),name='edit-profile')
+    path('edit-profile/<int:pk>',login_required(EditProfileView.as_view()),name='edit-profile'),
+    
+    path('rdp/',login_required(rdp_control),name='rdp'),
+    path('rdp/<str:action>',login_required(action_rdp),name='action-rdp')
     
     #path('payment/<int:pk>',payment_view)
 ]

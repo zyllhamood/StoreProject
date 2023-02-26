@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block status %}
+{% if user.is_authenticated %}
+<a href="{% url 'logouturl' %}"><img src="{% static 'images/logout.png' %}" alt="" width="23" height="23"></a>
+{% else %}
+<a href="{% url 'loginurl' %}"><img src="{% static 'images/login.png' %}" alt="" width="23" height="23"></a>
+{% endif %}
+{% endblock status %}
+{% block content %}
+<form method="post" action="">
+    <div class="container">
+        <div style="background-color: silver;" class="shop-card">
+            {% if user.is_authenticated %}
+        
+            <div class="labelInfo">Username : {{model.user.username}}</div>
+            <hr>
+            <div class="labelInfo">Info Login : </div>
+            <div class="labelInfo">IP :  {{model.ip_rdp}}</div>
+            <div class="labelInfo">Username :  {{model.username_rdp}}</div>
+            <div class="labelInfo">Password :  {{model.password_rdp}}</div>
+            <hr>
+            
+            <a class="labelInfo btn btn-danger" href="{% url 'action-rdp' 'stop' %}">Stop</a>
+            <a class="labelInfo btn btn-success" href="{% url 'action-rdp' 'start' %}">Start</a>
+            <hr>
+            
+            {% if status == "true" %}
+            <div style="color:green;" class="labelInfo">Status : True</div>
+            {% endif %}
+                
+            
+            {% endif %}
+        </div>
+    </div>
+
+    
+
+
+</form>
+
+    
+{% endblock content %}
+    
