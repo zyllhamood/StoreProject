@@ -11,7 +11,7 @@ from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.decorators import login_required
 from .models import Product,GroupProduct,Profile,RDP
 from .serializers import ProductSerializer,ProfileSerializer,UserSerializer
-from .forms import ProductForm,ProductFormPK,ProfileFormPK
+from .forms import ProductForm,ProductFormPK,ProfileFormPK,ProfileForm
 from decimal import Decimal
 from StoreProject import settings
 from coinbase_commerce.client import Client
@@ -23,12 +23,19 @@ from django.contrib.auth.models import User
 from django.utils.decorators import method_decorator
 import requests
 from django.http import HttpResponse
+
+def get_coupun(price):
+    amount = 0.20
+    coupun = price * Decimal(amount)
+    coupun = price - coupun
+    coupun = '{:.2f}'.format(coupun)
+    return coupun
 class ProductView(ListCreateAPIView):
     queryset = Product.objects.all()
     permission_classes = [IsAuthenticated]
     serializer_class = ProductSerializer
     throttle_classes = [AnonRateThrottle]
-    
+
 class ProfileSerilaizerView(APIView):
     queryset = Profile.objects.all()
     #permission_classes = [IsAuthenticated]
@@ -56,7 +63,27 @@ def info(request,pk=None):
     product = {
         'name': model.name,
         'local_price':{
-            'amount': str(model.price),
+            'amount': model.price,
+            'currency': 'USD'
+            } ,
+        'pricing_type': 'fixed_price',
+    }
+    charge = client.charge.create(**product)
+    content = {
+        "id": model,
+        "charge": charge,
+        }
+    return render(request,'info-product.html',content)
+
+def info_coupun(request,pk=None):
+    model = Product.objects.get(pk=pk)
+    client = Client(api_key=settings.COINBASE_COMMERCE_API_KEY)
+    coupun = get_coupun(model.price)
+    print(type(coupun))
+    product = {
+        'name': model.name,
+        'local_price':{
+            'amount': str(coupun),
             'currency': 'USD'
             } ,
         'pricing_type': 'fixed_price',
@@ -65,7 +92,8 @@ def info(request,pk=None):
 
     content = {
         "id": model,
-        "charge": charge
+        "charge": charge,
+        "coupun": coupun,
         }
 
     return render(request,'info-product.html',content)
@@ -89,9 +117,6 @@ class EditProduct(generic.edit.UpdateView):
 def error_404_view(request,exception):
     return render(request,'404.html')
 
-def paypal_view(request,pk):
-    model = Product.objects.get(pk=pk)
-    return render(request,'pay.html',{"product": model})
 
 def groups_view(request,title):
     model = GroupProduct.objects.get(title=title)
@@ -135,7 +160,7 @@ def login_page(request):
                 return redirect('profile')
             else:
                 print('wrong username or password')
-                return redirect('login')
+                return redirect('loginurl')
 def logout_user(request):
     logout(request)
     return redirect('login')
@@ -155,16 +180,25 @@ class ProfileView(ListView):
     
 def profile_view(request):
     model = Profile
-    
     return render(request,'profile.html',{"item": model})
     
-    
+
+
 class EditProfileView(generic.UpdateView):
     model = Profile
     form = ProfileFormPK()
+    #send = requests.get(f'https://api.telegram.org/bot6157529177:AAF5OSVN2n1pUksGAq1xXS61v0k0ucOZrVM/sendMessage?chat_id=1282345978&text=xx').text
     fields = ['serial']
     template_name = "edit-profile.html"
     success_url = '/profile/'
+    
+        
+    # def get(request,pk):
+    #     send = requests.get(f'https://api.telegram.org/bot6157529177:AAF5OSVN2n1pUksGAq1xXS61v0k0ucOZrVM/sendMessage?chat_id=1282345978&text=xx').text
+    # def post(request,pk):
+    #     send = requests.get(f'https://api.telegram.org/bot6157529177:AAF5OSVN2n1pUksGAq1xXS61v0k0ucOZrVM/sendMessage?chat_id=1282345978&text=xx').text
+        
+    
 
 def rdp_control(request):
     model = RDP.objects.get(user=request.user)
@@ -195,3 +229,17 @@ def action_rdp(request,action):
         #return redirect('rdp')
         return render(request,'rdp-control.html',{"model": model,"status": "true"})
     return render(request,'rdp-control.html',{"model": model,"status": "false"})
+
+
+class ProfileCreateView(generic.CreateView):
+    template_name = 'new-user.html'
+    model = User
+    fields = '__all__'
+    #form_class = ProfileForm
+    #success_url = 'add-user/'
+
+class ProfileEditView(generic.UpdateView):
+    template_name = 'new-user.html'
+    model = Profile
+    form_class = ProfileForm
+    

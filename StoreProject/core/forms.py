@@ -17,6 +17,14 @@ class ProductFormPK(forms.ModelForm):
         model = Product
         fields = ('name','id_place','dis','price','image')
     
+class ProfileForm(forms.ModelForm):
+
+    class Meta:
+        model = Profile
+        fields = ['user','email_or_username','product','serial']
+        
+        
+
 class ProfileFormPK(forms.ModelForm):
     class Meta:
         model = Profile

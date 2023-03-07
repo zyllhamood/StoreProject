@@ -11,11 +11,11 @@ urlpatterns = [
     path('api/serial/',ProfileSerilaizerView.as_view()),
     
     path('',home,name='home'),
-    path('info/<int:pk>',info,name='info'),
+    path('info/<int:pk>',info_coupun,name='info'),
     path('new/',login_required(NewProduct.as_view())),
     path('edit/<int:pk>',login_required(EditProduct.as_view()),name = 'edit'),
     path('groups/<str:title>',groups_view,name='group-url'),
-    #path('register/',RegisterView.as_view(),name='register'),
+    path('register/',RegisterView.as_view(),name='register'),
     path('login/',login_page,name='loginurl'),
     path('logout/', auth_views.LogoutView.as_view(next_page='/'), name='logouturl'),
     path('profile/',login_required(ProfileView.as_view()),name='profile'),
@@ -23,7 +23,12 @@ urlpatterns = [
     path('edit-profile/<int:pk>',login_required(EditProfileView.as_view()),name='edit-profile'),
     
     path('rdp/',login_required(rdp_control),name='rdp'),
-    path('rdp/<str:action>',login_required(action_rdp),name='action-rdp')
+    path('rdp/<str:action>',login_required(action_rdp),name='action-rdp'),
+    
+    path('add-user/',ProfileCreateView.as_view(),name='add-user'),
+    path('edit-user/<int:pk>',ProfileEditView.as_view(),name='edit-user'),
+   
+    
     
     #path('payment/<int:pk>',payment_view)
 ]

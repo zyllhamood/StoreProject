@@ -31,7 +31,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'djoser',
     'crispy_forms',
-    'django_summernote'
+    'django_summernote',
 ]
 
 MIDDLEWARE = [
@@ -43,7 +43,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-
+PAYPAL_IDENTITY_TOKEN = "Ad8_yGLSaYu2b2jlEV_rtLk94qmR3aQrjLe4F1z4XXtX_iNMtpUPwbYB2boeXkRZQ86aFLF4uyy83qGL"
 ROOT_URLCONF = 'StoreProject.urls'
 
 TEMPLATES = [

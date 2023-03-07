@@ -1,0 +1,30 @@
+{% extends 'registration/base.html' %}
+{% load static %}
+
+
+{% block content %}
+<div class="container">
+    <div class="col-sm-3">
+        <div class="login-container" style="margin-top: 10px;">
+            <div class="circle circle-one"></div>
+            <div class="form-container">
+                <h1 class="opacity">Profile</h1>
+                <form method="post">
+                    {% csrf_token %}
+                    <div id="usernameVar">{{form.user}}</div>
+                    <div id="usernameVar">Password : </div>
+                    <div id="usernameVar">{{form.email_or_username}}</div>
+                    <div id="usernameVar">{{form.product}}</div>
+                    <div id="usernameVar">{{form.serial}}</div>
+          
+                    <input type="submit" class="opacity" value="Create">
+                </form>
+                
+            </div>
+            
+        </div>
+        
+    </div>
+    
+</div>
+{% endblock content %}

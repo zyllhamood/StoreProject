@@ -1,0 +1,5 @@
+- wrong password for login -----------------------
+- paypal payment
+- webhook for payment confirmed -----------------------
+- private email on zyll.pro
+- count activation for every user in all items

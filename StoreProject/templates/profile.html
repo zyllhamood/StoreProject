@@ -23,7 +23,7 @@
             <hr>
             <div class="labelInfo">Products You Paid : </div>
             {% for item in user.profile.product.all %}
-            <div class="labelInfo">- {{item.name}}</div>
+            <div class="labelInfo">- <a style="color:black;" href="{{item.link}}">{{item.name}}</a></div>
             
             {% if 'RDP' in item.name %}
             <a class="labelInfo" style="padding-top: 40px;color:rgb(112, 78, 78);" href="{% url 'rdp'%}">Control RDP</a>
