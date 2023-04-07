@@ -130,6 +130,7 @@ display:inline-block;;
   }
 }
 
+
 .header {
   grid-area: header;
   padding: 10px;
@@ -185,7 +186,123 @@ display:inline-block;;
 	width:300px;
 	
 }
-/* Login */
+
+.radio-switch {
+  
+  display:ruby-text;
+  
+}
+.radio-switch > input[type=radio] {
+  width: 0;
+  opacity: 0;
+  margin: 0;
+}
+.radio-switch > label {
+  user-select: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  text-align: center;
+  padding: 14px;
+  z-index: 1;
+  margin: 5px 0;
+  color: #666;
+}
+.radio-switch > label:not(:last-of-type) {
+  border-right: 1px solid #00000010;
+}
+.radio-switch > input:checked + label {
+  background: rgb(65, 65, 65);
+  color: white;
+  box-shadow: 1px 2px 20px #0000002b;
+  border-radius: 4px;
+  margin: 0;
+}
+
+.radio-switch .background {
+  background: #eee;
+  position: absolute;
+  left: 0;
+  top: 0;
+  top: 10%;
+  height: 80%;
+  width: 100%;
+  border-radius: 4px;
+  box-shadow: 1px 1px 0px #00000012;
+}
+
+
+
+
+.textUrl{
+  
+  display: flexbox;
+  background-color: #cdcdcd;
+  width: 70%;
+}
+#txtHeaders{
+  width: 70%;
+  display: flexbox;
+  background-color: #cdcdcd;
+}
+#txtData{
+  width: 70%;
+  display: flexbox;
+  background-color: #cdcdcd;
+}
+.divSession{
+  padding: 5px;
+}
+.login-box {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 400px;
+  padding: 40px;
+  transform: translate(-50%, -50%);
+  background: rgba(0,0,0,.5);
+  box-sizing: border-box;
+  box-shadow: 0 15px 25px rgba(0,0,0,.6);
+  border-radius: 10px;
+}
+
+.login-box h2 {
+  margin: 0 0 30px;
+  padding: 0;
+  color: #fff;
+  text-align: center;
+}
+
+.login-box .user-box {
+  position: relative;
+}
+
+.login-box .user-box input {
+  width: 100%;
+  padding: 10px 0;
+  font-size: 16px;
+  color: #fff;
+  margin-bottom: 30px;
+  border: none;
+  border-bottom: 1px solid #fff;
+  outline: none;
+  background: transparent;
+}
+.login-box .user-box label {
+  position: absolute;
+  top:0;
+  left: 0;
+  padding: 10px 0;
+  font-size: 16px;
+  color: #fff;
+  pointer-events: none;
+  transition: .5s;
+}
+
+
+
 
 /* 
 

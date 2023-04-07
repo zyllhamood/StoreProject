@@ -15,17 +15,23 @@
 <div class="container cls1">
     <div>
         {% for title in groups %}
-        <a href="{% url 'group-url' title=title.title %}" id="groupItem" style="background-color: rgb(130, 130, 130);color: rgb(0, 0, 0);">{{title.title}}</a>
+            {% if 'products' in request.get_full_path %}
+                {% if title.type == "Products" %}
+                    <a href="{% url 'group-url' title=title.title %}" id="groupItem" style="background-color: rgb(130, 130, 130);color: rgb(0, 0, 0);">{{title.title}}</a>
+                {% endif %}
+            {% endif %}
         {% endfor %}
     </div>
     
     <div class="row">
         {% for item in products %}
+        
+        {% if item.type == "Products" %}
         <div class="col-xl-3">
             <div style="background-color: silver;" class="shop-card">
                 <img src="{{item.image.url}}" alt="" width="260" height="230">
                 <div class="clsFontTitle">
-                    <a href="{% url 'info' pk=item.pk %}" class="btn btn-silver" style="width: 250px;background-color: rgb(130, 130, 130);color: rgb(0, 0, 0);">{{item.name}}</a>
+                    <a href="{% url 'info' name=item.name %}" class="btn btn-silver" style="width: 250px;background-color: rgb(130, 130, 130);color: rgb(0, 0, 0);">{{item.name}}</a>
                 </div>
                   <div class="clsFontPrice">
                     {{item.price}}$
@@ -33,6 +39,9 @@
                   
             </div>
         </div>
+        {% endif %}
+            
+        
         {% endfor %}
     </div>
 </div>

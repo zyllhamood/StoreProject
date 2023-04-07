@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block status %}
+{% if user.is_authenticated %}
+<a href="{% url 'logouturl' %}"><img src="{% static 'images/logout.png' %}" alt="" width="23" height="23"></a>
+{% else %}
+<a href="{% url 'loginurl' %}"><img src="{% static 'images/login.png' %}" alt="" width="23" height="23"></a>
+{% endif %}
+{% endblock status %}
+{% block content %}
+<div class="container">
+    <form action="" method="post">
+        {% csrf_token %}
+        <div style="background-color: silver;" class="shop-card">
+            <div class="radio-switch">
+                <input id="POST" type="radio" name="method" checked="checked" value="POST"/>
+                <label for="POST">POST</label>
+                <input id="GET" type="radio" name="method" value="GET"/>
+                <label for="GET">GET</label>
+                
+              </div>
+              <hr>
+              <div class="divUrl">
+                <input class="textUrl" placeholder="Url" type="text" id="url" name="url">
+                
+              </div>
+        
+            <hr>
+            <h5>Headers</h5>
+            <textarea name="headers" id="txtHeaders" cols="70" rows="10"></textarea>
+            <hr>
+            <div>
+                <h5>Data</h5>
+                <input type="text" name="data" id="txtData" style="text-align: center;width: 50%;">
+            </div>
+            <hr>
+            <input type="submit" class="btn btn-secondary" value="Call Request">
+        
+        
+        </div>
+    </form>
+        
+        
+    </div>
+{% endblock content %}
+
+    

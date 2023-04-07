@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block status %}
+    
+{% if user.is_authenticated %}
+    <a href="{% url 'logouturl' %}"><img src="{% static 'images/logout.png' %}" alt="" width="23" height="23"></a>
+    {% else %}
+    <a href="{% url 'loginurl' %}"><img src="{% static 'images/login.png' %}" alt="" width="23" height="23"></a>
+    {% endif %}
+        
+{% endblock status %}
+    
+{% block content %}
+<div class="container cls1">
+    <div>
+        {% for title in groups %}
+        <a href="{% url 'group-url' title=title.title %}" id="groupItem" style="background-color: rgb(130, 130, 130);color: rgb(0, 0, 0);">{{title.title}}</a>
+        {% endfor %}
+    </div>
+    
+    <div class="row">
+        <div class="col-xl-3">
+            <div style="background-color: silver;" class="shop-card">
+                <img src="{% static 'images/build-request.png' %}" alt="" width="260" height="230">
+                <div class="clsFontTitle">
+                    <a href="/build-request" class="btn btn-silver" style="width: 250px;background-color: rgb(130, 130, 130);color: rgb(0, 0, 0);">Build Request</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3">
+            <div style="background-color: silver;" class="shop-card">
+                <img src="{% static 'images/call-request.png' %}" alt="" width="260" height="230">
+                <div class="clsFontTitle">
+                    <a href="/call-request" class="btn btn-silver" style="width: 250px;background-color: rgb(130, 130, 130);color: rgb(0, 0, 0);">Call Request</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3">
+            <div style="background-color: silver;" class="shop-card">
+                <img src="{% static 'images/get-session.png' %}" alt="" width="260" height="230">
+                <div class="clsFontTitle">
+                    <a href="/get-session" class="btn btn-silver" style="width: 250px;background-color: rgb(130, 130, 130);color: rgb(0, 0, 0);">Get Sessionid</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

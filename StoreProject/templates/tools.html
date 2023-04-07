@@ -1,42 +1,37 @@
-
 {% extends 'base.html' %}
 {% load static %}
 
 {% block status %}
+    
 {% if user.is_authenticated %}
-<a href="{% url 'logouturl' %}"><img src="{% static 'images/logout.png' %}" alt="" width="23" height="23"></a>
-{% else %}
-<a href="{% url 'loginurl' %}"><img src="{% static 'images/login.png' %}" alt="" width="23" height="23"></a>
-{% endif %}
+    <a href="{% url 'logouturl' %}"><img src="{% static 'images/logout.png' %}" alt="" width="23" height="23"></a>
+    {% else %}
+    <a href="{% url 'loginurl' %}"><img src="{% static 'images/login.png' %}" alt="" width="23" height="23"></a>
+    {% endif %}
+        
 {% endblock status %}
+    
 {% block content %}
-
 <div class="container cls1">
     <div>
         {% for title in groups %}
-            {% if 'RDP' in request.get_full_path or 'Prox' in request.get_full_path %}
-                {% if title.type == "Products" %}
-                    <a href="{% url 'group-url' title=title.title %}" id="groupItem" style="background-color: rgb(130, 130, 130);color: rgb(0, 0, 0);">{{title.title}}</a>
-                {% endif %}
-            {% else %}
-            {% if title.type == "Tools" %}
+            {% if 'tools' in request.get_full_path %}
+                {% if title.type == "Tools" %}
                     <a href="{% url 'group-url' title=title.title %}" id="groupItem" style="background-color: rgb(130, 130, 130);color: rgb(0, 0, 0);">{{title.title}}</a>
                 {% endif %}
             {% endif %}
         {% endfor %}
-
-        
     </div>
     
-    
     <div class="row">
+        {% for item in products %}
         
-        {% for item in content %}
+        {% if item.type == "Tools" %}
         <div class="col-xl-3">
             <div style="background-color: silver;" class="shop-card">
                 <img src="{{item.image.url}}" alt="" width="260" height="230">
                 <div class="clsFontTitle">
-                    <a href="{% url 'info' name=item.name %}" class="btn btn-silver" style="background-color: rgb(130, 130, 130);color: rgb(0, 0, 0);">{{item.name}}</a>
+                    <a href="{% url 'info' name=item.name %}" class="btn btn-silver" style="width: 250px;background-color: rgb(130, 130, 130);color: rgb(0, 0, 0);">{{item.name}}</a>
                 </div>
                   <div class="clsFontPrice">
                     {{item.price}}$
@@ -44,12 +39,10 @@
                   
             </div>
         </div>
+        {% endif %}
+            
+        
         {% endfor %}
     </div>
 </div>
-
-
 {% endblock content %}
-    
-
-    

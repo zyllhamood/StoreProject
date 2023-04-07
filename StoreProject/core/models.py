@@ -12,12 +12,14 @@ class Product(models.Model):
     price = models.DecimalField(max_digits=12, decimal_places=2)
     image = models.ImageField(default='static/images/default.png',upload_to='static/images')
     link = models.URLField(default='',blank=True)
+    type = models.CharField(max_length=255,default='Tools')
     def __str__(self):
         return self.name
     
 class GroupProduct(models.Model):
     title = models.CharField(max_length=255)
     product = models.ManyToManyField(Product)
+    type = models.CharField(max_length=255,default='Tools')
     def __str__(self):
         return self.title
     
@@ -38,3 +40,15 @@ class RDP(models.Model):
     
     def __str__(self):
         return self.ip_rdp
+class FreeTool(models.Model):
+    name = models.CharField(max_length=255)
+    dis = models.TextField()
+    def __str__(self):
+        return self.name
+    
+class Trending(models.Model):
+    name = models.CharField(max_length=255)
+    id_place = models.IntegerField()
+    product = models.OneToOneField(Product,on_delete=models.CASCADE)
+    def __str__(self):
+        return self.name

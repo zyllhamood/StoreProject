@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block status %}
+{% if user.is_authenticated %}
+<a href="{% url 'logouturl' %}"><img src="{% static 'images/logout.png' %}" alt="" width="23" height="23"></a>
+{% else %}
+<a href="{% url 'loginurl' %}"><img src="{% static 'images/login.png' %}" alt="" width="23" height="23"></a>
+{% endif %}
+{% endblock status %}
+{% block content %}
+<div class="container">
+    
+    <div style="background-color: silver;" class="shop-card" style="text-align: left;">
+        
+        
+            
+        <p style="text-align: left;">
+            
+            {% if type == "Python" %}
+                url = '{{url}}'<br>
+                headers = {{headers}}<br>
+                {% if method == "POST" %}
+                    data = '{{data}}'<br>
+                    resp = requests.post(url,headers=headers,data=data)<br>
+                    return resp.text
+                {% else %}
+                    resp = requests.get(url,headers=headers)<br>
+                    return resp.text
+                {% endif %}
+            {% else %}
+                string resp = "";<br>
+                try<br>
+                {<br>
+                    
+                    {% if method == "POST" %}
+                    StringContent json = new StringContent("{{data}}");<br>
+                    
+                        
+                    {% endif %}
+                    using (HttpRequest Request = new HttpRequest())<br>
+                    {<br>
+                        HttpRequest httpRequest = Request;<br>
+                        httpRequest.IgnoreProtocolErrors = true;<br>
+                        httpRequest.UserAgent = "{{useragent}}";<br>
+                        //httpRequest.Proxy = HttpProxyClient.Parse(proxy);<br>
+                        
+                        
+                        {% for itemh in headers %}
+                        
+                        {% if itemh != "" %}
+                        {{itemh}}");<br>
+                        {% endif %}
+                            
+                            
+                        {% endfor %}
+                            
+                        
+                        
+                        
+                        {% if method == "POST" %}
+                            resp = Request.Post("{{url}}", json).ToString();<br>
+                        {% elif method == "GET" %}
+                            resp = Request.Get("{{url}}").ToString();<br>
+                        {% endif %}
+                    }<br>
+                }<br>
+                catch (Exception ex){}<br>
+                return resp;<br>
+
+            {% endif %}
+                
+            
+        </p>
+    </div>
+    
+{% endblock content %}
+
+    

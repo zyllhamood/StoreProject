@@ -10,8 +10,8 @@ urlpatterns = [
     path('api/products/<int:pk>',ProductViewPK.as_view()),
     path('api/serial/',ProfileSerilaizerView.as_view()),
     
-    path('',home,name='home'),
-    path('info/<int:pk>',info_coupun,name='info'),
+    path('tools/',tools,name='tools'),
+    path('info/<str:name>',info,name='info'),
     path('new/',login_required(NewProduct.as_view())),
     path('edit/<int:pk>',login_required(EditProduct.as_view()),name = 'edit'),
     path('groups/<str:title>',groups_view,name='group-url'),
@@ -27,6 +27,14 @@ urlpatterns = [
     
     path('add-user/',ProfileCreateView.as_view(),name='add-user'),
     path('edit-user/<int:pk>',ProfileEditView.as_view(),name='edit-user'),
+
+    path('free-services/',homeFreeTools),
+    path('call-request/',call_request),
+    path('build-request/',made_request),
+    path('get-session/',get_session),
+    path('',index,name='home'),
+    path('products/',show_products),
+
    
     
     

@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block status %}
+{% if user.is_authenticated %}
+<a href="{% url 'logouturl' %}"><img src="{% static 'images/logout.png' %}" alt="" width="23" height="23"></a>
+{% else %}
+<a href="{% url 'loginurl' %}"><img src="{% static 'images/login.png' %}" alt="" width="23" height="23"></a>
+{% endif %}
+{% endblock status %}
+{% block content %}
+<div class="container">
+    
+    <div style="background-color: silver;" class="shop-card">
+        <div>
+            <h5>StatusCode : {{status_code}}</h5>
+        </div>
+        <hr>
+        <div>
+            <h5>Response</h5>
+            <p>{{text}}</p>
+        </div>
+        <hr>
+        <div>
+            <h5>Cookies</h5>
+            <p>{{cookies}}</p>
+        </div>
+    </div>
+    
+{% endblock content %}
+
+    
