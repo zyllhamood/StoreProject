@@ -34,6 +34,7 @@ urlpatterns = [
     path('get-session/',get_session),
     path('',index,name='home'),
     path('products/',show_products),
+    path('reset-instagram/',reset_instagram)
 
    
     

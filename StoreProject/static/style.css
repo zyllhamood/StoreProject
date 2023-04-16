@@ -301,9 +301,12 @@ display:inline-block;;
   transition: .5s;
 }
 
-
-
-
+#titleEdit{
+  font-size: 1.5rem;
+font-family: "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+font-weight: 700;
+margin-bottom: 0;
+}
 /* 
 
 

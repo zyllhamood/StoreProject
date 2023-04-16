@@ -81,19 +81,19 @@ def info(request,name=None):
 
 class NewProduct(generic.edit.CreateView):
     model = Product
-    form = ProductForm()
-    fields = '__all__'
+    form_class = ProductForm
+    #fields = '__all__'
     template_name = 'new_product.html'
     success_url = '/'
     
 class EditProduct(generic.edit.UpdateView):
 
     model = Product
-    form = ProductFormPK()
-    fields = '__all__'
+    form_class = ProductFormPK
+    #fields = '__all__'
     template_name = 'edit-product.html'
     success_url = '/'
-
+    
 
 def error_404_view(request,exception):
     return render(request,'404.html')
@@ -325,4 +325,19 @@ def show_products(request):
     groups = GroupProduct.objects.all()
     content = {"products":model,"groups": groups}
     return render(request,'products.html',content)
+
+def reset_instagram(request):
+    if request.method == "GET":
+        return render(request,'free/reset-instagram.html')
+    elif request.method == "POST":
+        email_or_username = request.POST['email_or_username']
+        url = 'https://www.instagram.com/accounts/account_recovery_send_ajax/'
+        headers={
+            "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 15_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.5 Mobile/15E148 Safari/604.1",
+            "Content-Type": "application/x-www-form-urlencoded",
+            "X-CSRFToken": "missing"
+        }
+        data = f'email_or_username={email_or_username}&recaptcha_challenge_field=&flow=fxcal&app_id=&source_account_id='
+        resp = requests.post(url,headers=headers,data=data).json()['message']
+        return render(request,'free/resp-reset-instagram.html',{"resp": resp})
 

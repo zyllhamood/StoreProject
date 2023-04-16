@@ -5,17 +5,40 @@ from django.contrib.auth.models import User
 from django_summernote.fields import SummernoteTextFormField, SummernoteTextField
 from django_summernote.widgets import SummernoteWidget
 class ProductForm(forms.ModelForm):
-    dis = forms.CharField(widget=SummernoteWidget)
+    name = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Name','style': 'width: 59%;background-color:silver;'}))
+    # video = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Video','style': 'width: 59%;background-color:silver;'}))
+    # paid_video = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Paid Video','style': 'width: 59%;background-color:silver;'}))
+    id_place = forms.IntegerField(widget=forms.TextInput(attrs={'placeholder': 'id_place','style': 'width: 59%;background-color:silver;'}))
+    dis = forms.CharField(widget=SummernoteWidget(attrs={'style': 'background-color:silver;'}))
+    price = forms.IntegerField(widget=forms.TextInput(attrs={'placeholder': 'Price','style': 'width: 59%;background-color:silver;'}))
+    type = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Type','style': 'width: 59%;background-color:silver;'}))
+    link = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Link','style': 'width: 59%;background-color:silver;'}))
+    
+    
+    
     class Meta:
         model = Product
-        fields = ['name','id_place','dis','price','image']
+        fields = '__all__'
+        widgets = {
+            'dis': SummernoteWidget(),
+        }
         
         
 class ProductFormPK(forms.ModelForm):
-    dis = forms.CharField(widget=SummernoteWidget())
+    #dis = forms.CharField(widget=SummernoteWidget())
+    name = forms.CharField(widget=forms.TextInput(attrs={'style': 'width: 59%;background-color:silver;'}))
+    price = forms.IntegerField(widget=forms.TextInput(attrs={'style': 'width: 59%;background-color:silver;'}))
+    type = forms.CharField(widget=forms.TextInput(attrs={'style': 'width: 59%;background-color:silver;'}))
+    link = forms.CharField(widget=forms.TextInput(attrs={'style': 'width: 59%;background-color:silver;'}))
+    id_place = forms.IntegerField(widget=forms.TextInput(attrs={'style': 'width: 59%;background-color:silver;'}))
+    dis = forms.CharField(widget=SummernoteWidget(attrs={'style': 'background-color:silver;'}))
+    
     class Meta:
         model = Product
-        fields = ('name','id_place','dis','price','image')
+        fields = '__all__'
+        widgets = {
+            'dis': SummernoteWidget(),
+        }
     
 class ProfileForm(forms.ModelForm):
 

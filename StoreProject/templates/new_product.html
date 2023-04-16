@@ -10,31 +10,41 @@
 {% block content %}
 {% if user.is_authenticated and user.username == "admin" %}
 <div class="container">
-    <form action="" method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        <div style="padding: 15px;" class="container">
-            <div style="width:fit-content;margin: 5px;" class="form-control">
-                {{form.name}}
-            </div>
-            <div style="width:fit-content;margin: 5px;" class="form-control">
-                {{form.dis|safe}}
-            </div>
-            <div style="width:fit-content;margin: 5px;" class="form-control">
-                {{form.id_place}}
-            </div>
-            <div style="width:fit-content;margin: 5px;" class="form-control">
-                {{form.price}}
-            </div>
-            <div style="width:fit-content;margin: 5px;" class="form-control">
-                {{form.image}}
-            </div>
-            <div style="width:fit-content;margin: 5px;" class="form-control">
-                <input style="width: 200px;" class="btn btn-primary" type="submit" value="Add">
-            </div>
-            
-            
+    <div>
+        <div style="background-color: silver;padding-top: 20px;" class="shop-card">
+            <form action="" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                
+                <div style="width:100%;margin: 5px;background-color: silver;border: 1px solid silver" class="form-control">
+                 {{form.name}}
+                </div>
+                
+                <div style="width:100%;margin: 5px;background-color: silver;border: 1px solid silver" class="form-control">
+                    {{form.id_place}}
+                </div>
+                <div style="width:100%;margin: 5px;background-color: silver;border: 1px solid silver" class="form-control">
+                    {{form.dis|safe }}
+                </div>
+                <div style="width:100%;margin: 5px;background-color: silver;border: 1px solid silver" class="form-control">
+                    {{form.image}}
+                </div>
+                <div style="width:100%;margin: 5px;background-color: silver;border: 1px solid silver" class="form-control">
+                    {{form.price}}
+                </div>
+                <div style="width:100%;margin: 5px;background-color: silver;border: 1px solid silver" class="form-control">
+                    {{form.link}}
+                </div>
+                <div style="width:100%;margin: 5px;background-color: silver;border: 1px solid silver" class="form-control">
+                    {{form.type}}
+                </div>
+                <div style="width:100%;margin: 5px;background-color: silver;border: 1px solid silver" class="form-control">
+                    <input style="width: 200px;" class="btn btn-primary" type="submit" value="Create">
+                </div>
+            </form>
         </div>
-    </form>
+        
+    </div>
+    
 </div>
 {% endif %}
 {% endblock content %}
