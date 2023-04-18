@@ -36,9 +36,11 @@ urlpatterns = [
     path('products/',show_products),
     path('reset-instagram/',reset_instagram),
 
-    path('show-users/',show_users),
+    path('show-users/',show_users,name='show-users'),
     path('profile/<int:pk>',EditUser.as_view(),name='edit-user'),
-    path('profile/new/',CreateProfile.as_view(),name='new-profile')
+    path('profile/new/',CreateProfile.as_view(),name='new-profile'),
+
+    path('delete-product/<int:pk>',delete_product,name='delete-product')
 
    
     

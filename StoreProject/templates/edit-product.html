@@ -33,7 +33,14 @@
                     {{form.type}}
                 </div>
                 <div style="width:100%;margin: 5px;background-color: silver;border: 1px solid silver" class="form-control">
+                    <p>Hide : {{form.hide}}</p>
+                </div>
+                <div style="width:100%;margin: 5px;background-color: silver;border: 1px solid silver" class="form-control">
                     <input style="width: 200px;" class="btn btn-primary" type="submit" value="Edit">
+                </div>
+                <hr>
+                <div style="width:100%;margin: 5px;background-color: silver;border: 1px solid silver" class="form-control">
+                    <a href="{% url 'delete-product' pk=product.pk %}"><input style="width: 200px;" class="btn btn-danger" type="button" value="Delete"></a>
                 </div>
             </form>
         </div>

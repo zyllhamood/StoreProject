@@ -92,8 +92,26 @@ class EditProduct(generic.edit.UpdateView):
     form_class = ProductFormPK
     #fields = '__all__'
     template_name = 'edit-product.html'
-    success_url = '/'
+    success_url = '/tools/'
     
+    
+class DeleteProduct(generic.edit.DeleteView):
+
+    model = Product
+    #form_class = ProductFormPK
+    #fields = '__all__'
+    template_name = 'delete-product.html'
+    success_url = '/tools/'
+    def post(request,pk):
+        Product.objects.filter(pk=pk).delete()
+        return redirect('/tools/')
+    
+def delete_product(request,pk):
+    if request.method == "GET":
+        return render(request,'delete-product.html')
+    elif request.method == "POST":
+        Product.objects.filter(pk=pk).delete()
+        return redirect('/tools/')
 
 def error_404_view(request,exception):
     return render(request,'404.html')

@@ -19,6 +19,7 @@
       <a class="" href="{% url 'profile' %}"><img style="margin-left: 10px;" src="{% static 'images/person.png' %}" alt=""></a>
       {% if user.is_authenticated and user.username == "admin" %}
       <a href="{% url 'new' %}"><img style="margin-left: 5px;" src="{% static 'images/add2.png' %}" alt=""></a>
+      <a href="{% url 'show-users' %}"><img style="margin-left: 5px;" src="{% static 'images/users.png' %}" alt=""></a>
       {% endif %}
     </div>
     
