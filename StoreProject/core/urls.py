@@ -12,7 +12,7 @@ urlpatterns = [
     
     path('tools/',tools,name='tools'),
     path('info/<str:name>',info,name='info'),
-    path('new/',login_required(NewProduct.as_view())),
+    path('new/',login_required(NewProduct.as_view()),name='new'),
     path('edit/<int:pk>',login_required(EditProduct.as_view()),name = 'edit'),
     path('groups/<str:title>',groups_view,name='group-url'),
     path('register/',RegisterView.as_view(),name='register'),
@@ -25,8 +25,8 @@ urlpatterns = [
     path('rdp/',login_required(rdp_control),name='rdp'),
     path('rdp/<str:action>',login_required(action_rdp),name='action-rdp'),
     
-    path('add-user/',ProfileCreateView.as_view(),name='add-user'),
-    path('edit-user/<int:pk>',ProfileEditView.as_view(),name='edit-user'),
+    #path('add-user/',ProfileCreateView.as_view(),name='add-user'),
+    #path('edit-user/<int:pk>',ProfileEditView.as_view(),name='edit-user'),
 
     path('free-services/',homeFreeTools),
     path('call-request/',call_request),
@@ -34,7 +34,11 @@ urlpatterns = [
     path('get-session/',get_session),
     path('',index,name='home'),
     path('products/',show_products),
-    path('reset-instagram/',reset_instagram)
+    path('reset-instagram/',reset_instagram),
+
+    path('show-users/',show_users),
+    path('profile/<int:pk>',EditUser.as_view(),name='edit-user'),
+    path('profile/new/',CreateProfile.as_view(),name='new-profile')
 
    
     

@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block status %}
+{% if user.is_authenticated %}
+<a href="{% url 'logouturl' %}"><img src="{% static 'images/logout.png' %}" alt="" width="23" height="23"></a>
+{% else %}
+<a href="{% url 'loginurl' %}"><img src="{% static 'images/login.png' %}" alt="" width="23" height="23"></a>
+{% endif %}
+{% endblock status %}
+{% block content %}
+{% if user.is_authenticated and user.username == "admin" %}
+    
+<form method="post" action="">
+    
+   
+        
+   
+        
+    <div class="container">
+        <div style="background-color: silver;" class="shop-card formEditProfile">
+            {% csrf_token %}
+            <div style="margin: 5px;background-color: silver;" >
+                {{form.user}}
+            </div>
+            <div style="margin: 5px;background-color: silver;" >
+                Username Or Email : {{form.email_or_username}}
+            </div>
+            <div style="margin: 5px;background-color: silver;" >
+                Serial : {{form.serial}}
+            </div>
+            Product : 
+            <div style="margin: 5px;background-color: silver;" >
+                {{form.product}}
+            </div>
+            <div style="margin: 5px;background-color: silver;">
+                <input style="width: 190px;" class="btn btn-primary" type="submit" value="Edit">
+            </div>
+            <!-- <div style="width:fit-content;margin: 5px;" class="form-control">
+                {{form.email_or_username}}
+            </div> -->
+            
+        </div>
+    </div>
+
+</form>
+{% endif %}
+{% endblock content %}

@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block content %}
+{% if user.is_authenticated and user.username == "admin" %}
+
+
+<div class="container">
+
+    <div class="formEditProfile">
+        <div style="background-color: silver;" class="shop-card" style="text-align: left;">
+            <form action="" method="POST">
+                {% csrf_token %}
+                <input type="text" name="word" id="" placeholder="Search">
+                <input style="margin-top: 10px;" type="submit" class="btn btn-primary" value="Confirm">
+            </form>
+           
+        </div>
+        
+        
+        <div style="background-color: silver;" class="shop-card scroll">
+        
+            {% for item in userx %}
+            {% if item.username in profile|unordered_list  %}
+            
+            {% for account in profile %}
+            
+            {% if item.username == account.email_or_username  %}
+            <div style="margin: 5px;background-color: silver;" >
+                <div class="labelInfo">- <a style="color:black;" href="{% url 'edit-user' pk=account.pk %}">{{item.username}}</a></div>
+            </div>
+            {% endif %}
+            {% endfor %}
+                
+            
+            {% else %}
+            <div style="margin: 5px;background-color: silver;" >
+                <div class="labelInfo">- <a style="color:black;" href="{% url 'new-profile' %}">{{item.username}}</a></div>
+            </div>
+            {% endif %}
+            
+
+            
+            {% endfor %}
+
+        </div>
+    </div>
+
+</div>
+{% endif %}
+{% endblock content %}

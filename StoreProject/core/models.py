@@ -26,9 +26,11 @@ class GroupProduct(models.Model):
 class Profile(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE)
     
-    product = models.ManyToManyField(Product)
+    product = models.ManyToManyField(Product,default='')
     email_or_username = models.CharField(max_length=255,default='')
     serial = models.CharField(max_length=1000,default='')
+    def __str__(self):
+        return self.email_or_username
     
     
 class RDP(models.Model):

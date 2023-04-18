@@ -13,9 +13,15 @@
 </head>
 <body style="background-color: rgb(101, 99, 99);">
   <nav class="navbar navbar-light" style="background-color: rgb(65, 65, 65);">
-    <a class="navbar-brand" href="{% url 'profile' %}">
-      <img style="margin-left: 10px;" src="{% static 'images/person.png' %}" alt="">
-    </a>
+    
+    
+    <div class="navbar-brand">
+      <a class="" href="{% url 'profile' %}"><img style="margin-left: 10px;" src="{% static 'images/person.png' %}" alt=""></a>
+      {% if user.is_authenticated and user.username == "admin" %}
+      <a href="{% url 'new' %}"><img style="margin-left: 5px;" src="{% static 'images/add2.png' %}" alt=""></a>
+      {% endif %}
+    </div>
+    
     <ul class="nav">
       <li class="nav-item" style="margin-right: 10px;">
         <a href="{% url 'home' %}"><img src="{% static 'images/home.png' %}" alt="" ></a>

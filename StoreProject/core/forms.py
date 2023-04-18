@@ -9,7 +9,8 @@ class ProductForm(forms.ModelForm):
     # video = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Video','style': 'width: 59%;background-color:silver;'}))
     # paid_video = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Paid Video','style': 'width: 59%;background-color:silver;'}))
     id_place = forms.IntegerField(widget=forms.TextInput(attrs={'placeholder': 'id_place','style': 'width: 59%;background-color:silver;'}))
-    dis = forms.CharField(widget=SummernoteWidget(attrs={'style': 'background-color:silver;'}))
+    #dis = forms.CharField(widget=SummernoteWidget(attrs={'style': 'background-color:silver;'}))
+    dis = forms.CharField(widget=forms.Textarea(attrs={'style': 'background-color:silver;'}))
     price = forms.IntegerField(widget=forms.TextInput(attrs={'placeholder': 'Price','style': 'width: 59%;background-color:silver;'}))
     type = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Type','style': 'width: 59%;background-color:silver;'}))
     link = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Link','style': 'width: 59%;background-color:silver;'}))
@@ -19,9 +20,9 @@ class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
         fields = '__all__'
-        widgets = {
-            'dis': SummernoteWidget(),
-        }
+        # widgets = {
+        #     'dis': SummernoteWidget(),
+        # }
         
         
 class ProductFormPK(forms.ModelForm):
@@ -31,14 +32,14 @@ class ProductFormPK(forms.ModelForm):
     type = forms.CharField(widget=forms.TextInput(attrs={'style': 'width: 59%;background-color:silver;'}))
     link = forms.CharField(widget=forms.TextInput(attrs={'style': 'width: 59%;background-color:silver;'}))
     id_place = forms.IntegerField(widget=forms.TextInput(attrs={'style': 'width: 59%;background-color:silver;'}))
-    dis = forms.CharField(widget=SummernoteWidget(attrs={'style': 'background-color:silver;'}))
-    
+    #dis = forms.CharField(widget=SummernoteWidget(attrs={'style': 'background-color:silver;'}))
+    dis = forms.CharField(widget=forms.Textarea(attrs={'style': 'background-color:silver;'}))
     class Meta:
         model = Product
         fields = '__all__'
-        widgets = {
-            'dis': SummernoteWidget(),
-        }
+        # widgets = {
+        #     'dis': SummernoteWidget(),
+        # }
     
 class ProfileForm(forms.ModelForm):
 
@@ -52,6 +53,12 @@ class ProfileFormPK(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ('serial',)
+
+class EditProfile(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = '__all__'
+    
     
 # class RdpForm(forms.ModelForm):
 #     class Meta:

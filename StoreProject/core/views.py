@@ -11,7 +11,7 @@ from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.decorators import login_required
 from .models import Product,GroupProduct,Profile,RDP,FreeTool,Trending
 from .serializers import ProductSerializer,ProfileSerializer,UserSerializer
-from .forms import ProductForm,ProductFormPK,ProfileFormPK,ProfileForm
+from .forms import ProductForm,ProductFormPK,ProfileFormPK,ProfileForm,EditProfile
 from decimal import Decimal
 from StoreProject import settings
 from coinbase_commerce.client import Client
@@ -152,7 +152,7 @@ class RegisterView(generic.CreateView):
     template_name = 'registration/register.html'
     model = User
     form_class = UserCreationForm
-    success_url = 'login/'
+    success_url = '/show-users/'
     
 #@method_decorator(login_required(login_url='login'),name='dispatch')
 class ProfileView(ListView):
@@ -214,17 +214,17 @@ def action_rdp(request,action):
     return render(request,'rdp-control.html',{"model": model,"status": "false"})
 
 
-class ProfileCreateView(generic.CreateView):
-    template_name = 'new-user.html'
-    model = User
-    fields = '__all__'
-    #form_class = ProfileForm
-    #success_url = 'add-user/'
+# class ProfileCreateView(generic.CreateView):
+#     template_name = 'new-user.html'
+#     model = User
+#     fields = '__all__'
+#     #form_class = ProfileForm
+#     #success_url = 'add-user/'
 
-class ProfileEditView(generic.UpdateView):
-    template_name = 'new-user.html'
-    model = Profile
-    form_class = ProfileForm
+# class ProfileEditView(generic.UpdateView):
+#     template_name = 'new-user.html'
+#     model = Profile
+#     form_class = ProfileForm
     
 
 def homeFreeTools(request):
@@ -341,3 +341,46 @@ def reset_instagram(request):
         resp = requests.post(url,headers=headers,data=data).json()['message']
         return render(request,'free/resp-reset-instagram.html',{"resp": resp})
 
+
+# class ShowUsers(generic.ListView):
+#     template_name = 'show-users.html'
+#     model = User
+#     fields = ['username']
+#     #form_class = ProfileForm
+#     #success_url = 'add-user/'
+
+def show_users(request):
+    if request.method == "GET":
+        model = User.objects.all().order_by('-date_joined')
+        model2 = Profile.objects.all()
+        content = {"userx":model,"profile":model2}
+        return render(request,'show-users.html',content)
+    elif request.method == "POST":
+        word = request.POST["word"]
+        model = User.objects.filter(username__contains=word).order_by('-date_joined')
+        model2 = Profile.objects.all()
+        content = {"userx":model,"profile":model2}
+        return render(request,'show-users.html',content)
+
+def edit_user(request,user):
+    model = Profile.objects.get(email_or_username=user)
+    content = {"user": model}
+    return render(request,'edit-user.html',content)
+
+
+class EditUser(generic.UpdateView):
+    model = Profile
+    form = EditProfile()
+    #fields = ['serial']
+    fields = '__all__'
+    template_name = "edit-user.html"
+    success_url = '/show-users/'
+
+class CreateProfile(generic.CreateView):
+    model = Profile
+    form = EditProfile()
+    #fields = ['serial']
+    fields = '__all__'
+    template_name = "edit-user.html"
+    success_url = '/show-users/'
+    

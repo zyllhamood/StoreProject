@@ -3,6 +3,7 @@
 
 
 {% block content %}
+{% if user.is_authenticated and user.username == "admin" %}
 <div class="container">
     <div class="col-sm-3">
         <div class="login-container" style="margin-top: 10px;">
@@ -11,7 +12,7 @@
                 <h1 class="opacity">REGISTER</h1>
                 <form method="post">
                     {% csrf_token %}
-                    <input type="text" id="emailVar" name="email_address" placeholder="EMAIL" />
+                    <!-- <input type="text" id="emailVar" name="email_address" placeholder="EMAIL" /> -->
                     <input type="text" id="usernameVar" name="username" placeholder="USERNAME" />
                     <input type="password" id="passwordVar" name="password1" placeholder="PASSWORD" />
                     <input type="password" id="passwordVar" name="password2" placeholder="PASSWORD" />
@@ -25,4 +26,7 @@
     </div>
     
 </div>
+{% endif %}
 {% endblock content %}
+
+    
