@@ -26,6 +26,9 @@ import re
 from django.http import JsonResponse
 from django.http import HttpResponse
 from django_ratelimit.decorators import ratelimit
+from collections import OrderedDict
+import paypalrestsdk
+from django.shortcuts import redirect
 def get_coupun(price):
     amount = 0.20
     coupun = price * Decimal(amount)
@@ -371,7 +374,7 @@ def show_users(request):
     if request.method == "GET":
         model = User.objects.all().order_by('-date_joined')
         model2 = Profile.objects.all()
-        content = {"userx":model,"profile":model2}
+        content = {"userx":model,"profile":model2,"num":model.count()}
         return render(request,'show-users.html',content)
     elif request.method == "POST":
         word = request.POST["word"]
@@ -382,6 +385,7 @@ def show_users(request):
 
 def edit_user(request,user):
     model = Profile.objects.get(email_or_username=user)
+    
     content = {"user": model}
     return render(request,'edit-user.html',content)
 
@@ -396,9 +400,65 @@ class EditUser(generic.UpdateView):
 
 class CreateProfile(generic.CreateView):
     model = Profile
+    # ss = Profile.objects.all().order_by('-pk')
+    
     form = EditProfile()
     #fields = ['serial']
+    
     fields = '__all__'
     template_name = "edit-user.html"
     success_url = '/show-users/'
-    
+
+# def initiate_payment(request):
+#     paypalrestsdk.configure({
+#         "mode": "sandbox", # Change to "live" for production
+#         "client_id": "AZpt5wQM3iptzOsEiBwerlcwL64Cw6AkgrLFKHtGJMDDa-m1IxSZeAJZT6WZ4Rx3G7bKMamqLb9GbTY2",
+#         "client_secret": "EGG5ZxmqLZHOFVPdsmAL0gQ7TK2fT0mPNX_28uB5mZTzsJ69GWb9Y89mKehE8126PIUaT0U_NrrNJsKj"
+#     })
+
+#     payment = paypalrestsdk.Payment({
+#         "intent": "sale",
+#         "payer": {
+#             "payment_method": "paypal"
+#         },
+#         "redirect_urls": {
+#             "return_url": "http://127.0.0.1:8000/execute_payment/",
+#             "cancel_url": "http://127.0.0.1:8000/cancel_payment/"
+#         },
+#         "transactions": [{
+#             "amount": {
+#                 "total": "2.00",
+#                 "currency": "USD"
+#             },
+#             "description": "Example payment"
+#         }]
+#     })
+
+#     if payment.create():
+#         for link in payment.links:
+#             if link.method == "REDIRECT":
+#                 redirect_url = str(link.href)
+#                 return redirect(redirect_url)
+#     else:
+#         print(payment.error)
+#         return HttpResponse("Error while creating payment.")
+# def execute_payment(request):
+#     paypalrestsdk.configure({
+#         "mode": "sandbox", # Change to "live" for production
+#         "client_id": "AZpt5wQM3iptzOsEiBwerlcwL64Cw6AkgrLFKHtGJMDDa-m1IxSZeAJZT6WZ4Rx3G7bKMamqLb9GbTY2",
+#         "client_secret": "EGG5ZxmqLZHOFVPdsmAL0gQ7TK2fT0mPNX_28uB5mZTzsJ69GWb9Y89mKehE8126PIUaT0U_NrrNJsKj"
+#     })
+
+#     payment_id = request.GET.get("paymentId")
+#     payer_id = request.GET.get("PayerID")
+
+#     payment = paypalrestsdk.Payment.find(payment_id)
+
+#     if payment.execute({"payer_id": payer_id}):
+#         return HttpResponse("Payment successful.")
+#     else:
+#         print(payment.error)
+#         return HttpResponse("Error while executing payment.")
+
+# def cancel_payment(request):
+#     return HttpResponse("Payment cancelled.")

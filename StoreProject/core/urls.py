@@ -40,7 +40,11 @@ urlpatterns = [
     path('profile/<int:pk>',EditUser.as_view(),name='edit-user'),
     path('profile/new/',CreateProfile.as_view(),name='new-profile'),
 
-    path('delete-product/<int:pk>',delete_product,name='delete-product')
+    path('delete-product/<int:pk>',delete_product,name='delete-product'),
+
+    # path("paypal/", initiate_payment, name="initiate_payment"),
+    # path("execute_payment/", execute_payment, name="execute_payment"),
+    # path("cancel_payment/", cancel_payment, name="cancel_payment"),
 
    
     

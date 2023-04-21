@@ -17,6 +17,7 @@ requests = "*"
 django-paypal = "*"
 django-redis = "*"
 django-ratelimit = "*"
+paypalrestsdk = "*"
 
 [dev-packages]
 

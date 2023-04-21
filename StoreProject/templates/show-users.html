@@ -12,10 +12,9 @@
         <div style="background-color: silver;" class="shop-card" style="text-align: left;">
             <form action="" method="POST">
                 {% csrf_token %}
+                <div style="margin-bottom: 10px; text-align: center;"><a style="color:green;" href="{% url 'register' %}">Register</a></div>
                 <input type="text" name="word" id="" placeholder="Search">
                 <input style="margin-top: 10px;" type="submit" class="btn btn-primary" value="Confirm">
-            </form>
-           
         </div>
         
         
@@ -28,7 +27,7 @@
             
             {% if item.username == account.email_or_username  %}
             <div style="margin: 5px;background-color: silver;" >
-                <div class="labelInfo">- <a style="color:black;" href="{% url 'edit-user' pk=account.pk %}">{{item.username}}</a></div>
+                <div class="labelInfo">-{{item.id}} <a style="color:black;" href="{% url 'edit-user' pk=account.pk %}">{{item.username}}</a></div>
             </div>
             {% endif %}
             {% endfor %}
@@ -36,7 +35,7 @@
             
             {% else %}
             <div style="margin: 5px;background-color: silver;" >
-                <div class="labelInfo">- <a style="color:black;" href="{% url 'new-profile' %}">{{item.username}}</a></div>
+                <div class="labelInfo">-{{item.id}} <a style="color:black;" href="{% url 'new-profile' %}">{{item.username}}</a></div>
             </div>
             {% endif %}
             
