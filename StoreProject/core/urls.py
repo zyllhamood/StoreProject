@@ -42,7 +42,9 @@ urlpatterns = [
 
     path('delete-product/<int:pk>',delete_product,name='delete-product'),
 
-    path('bot/',bot_instagram)
+    path('who-paid/<str:name>',who_paid,name='who-paid')
+
+    #path('bot/',bot_instagram)
 
     # path("paypal/", initiate_payment, name="initiate_payment"),
     # path("execute_payment/", execute_payment, name="execute_payment"),

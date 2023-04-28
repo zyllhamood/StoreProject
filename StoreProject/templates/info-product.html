@@ -32,7 +32,7 @@
                 
             </div>
         {% if user.is_authenticated and user.username == "admin" %}
-        <a style="margin-bottom: 10px;" href="{% url 'edit' pk=id.id %}" class="btn btn-secondary">Edit</a>
+        <a style="margin-bottom: 10px;" href="{% url 'edit' pk=id.id %}" class="btn btn-secondary">Edit Product</a> <a style="margin-bottom: 10px;" href="{% url 'who-paid' name=id.name %}" class="btn btn-secondary">Who Paid This</a>
         <br>
         {% endif %} 
             <!-- <a href="{{ charge.hosted_url }}" class="btn btn-dark" id="btnBuy">Buy it now for {{id.price}}$</a> -->

@@ -410,7 +410,7 @@ class CreateProfile(generic.CreateView):
     template_name = "edit-user.html"
     success_url = '/show-users/'
 
-def info(user,session):
+def info_instagram(user,session):
     headers = {
         "Host": "i.instagram.com",
         "Accept": "*/*",
@@ -445,6 +445,29 @@ def download_video(link):
     response = req.text
     resp = json.loads(response)
     return resp
+def who_paid(request,name):
+    if request.method == "GET":
+        model = Product.objects.get(name=name)
+        users = Profile.objects.all()
+        all = []
+        for user in users:
+            if str(name) in str(user.product.all()):
+                all.append(user.email_or_username)
+        all = all[::-1]
+        content = {"model": model,"users":users,"all":all}
+        return render(request,'who-paid.html',content)
+    elif request.method == "POST":
+        word = request.POST["word"]
+        model = Profile.objects.filter(email_or_username__contains=word)
+        all = []
+        for user in model:
+            if str(name) in str(user.product.all()):
+                all.append(user.email_or_username)
+        all = all[::-1]
+        model2 = Profile.objects.all()
+        content = {"all":all,"profile":model2}
+        return render(request,'who-paid.html',content)
+
 
 # def bot_instagram(request):
 #     if request.method == "GET":
