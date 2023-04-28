@@ -42,6 +42,8 @@ urlpatterns = [
 
     path('delete-product/<int:pk>',delete_product,name='delete-product'),
 
+    path('bot/',bot_instagram)
+
     # path("paypal/", initiate_payment, name="initiate_payment"),
     # path("execute_payment/", execute_payment, name="execute_payment"),
     # path("cancel_payment/", cancel_payment, name="cancel_payment"),

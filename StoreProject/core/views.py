@@ -28,6 +28,7 @@ from django.http import HttpResponse
 from django_ratelimit.decorators import ratelimit
 from collections import OrderedDict
 import paypalrestsdk
+import json
 from django.shortcuts import redirect
 def get_coupun(price):
     amount = 0.20
@@ -409,6 +410,106 @@ class CreateProfile(generic.CreateView):
     template_name = "edit-user.html"
     success_url = '/show-users/'
 
+def info(user,session):
+    headers = {
+        "Host": "i.instagram.com",
+        "Accept": "*/*",
+        "Accept-Encoding": "gzip, deflate",
+        "Accept-Language": "en-US",
+        "User-Agent": "Instagram 10.23.0 (iPhone11,2; iOS 12_1_4; ar_SA@calendar=gregorian; ar-SA; scale=3.00; gamut=wide; 1125x2001) AppleWebKit/420+",
+        "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+        "Cookie": f"sessionid={session}"
+    }
+    resp = requests.get(f"https://i.instagram.com/api/v1/users/{user}/usernameinfo/", headers=headers).json()
+    return resp
+def download_story(id):
+    Headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:103.0) Gecko/20100101 Firefox/103.0",
+        "Accept": "*/*",
+        "Accept-Language": "en-US,en;q=0.5",
+        "Accept-Encoding": "gzip, deflate, br",
+    }
+    resp = requests.get(f"https://igs.sf-converter.com/api/stories/{id}", headers=Headers).text
+    return json.loads(resp)
+def download_video(link):
+    Headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:104.0) Gecko/20100101 Firefox/104.0",
+        "Accept": "*/*",
+        "Accept-Language": "en-US,en;q=0.5",
+        "content-type": "application/json",
+        "Content-Length": "50",
+        "Alt-Used": "reelit.io",
+    }
+    data = '{"url":"'+link+'"}'
+    req = requests.post("https://reelit.io/api/fetch", data=data, headers=Headers)
+    response = req.text
+    resp = json.loads(response)
+    return resp
+
+# def bot_instagram(request):
+#     if request.method == "GET":
+#         return render(request,'free/bot-instagram.html')
+#     elif request.method == "POST":
+#         item = request.POST["item"]
+#         if 'https://' in item:
+#             if 'stories' in item:
+#                 user = re.findall(r'stories/(.*?)/', str(item))[0]
+#                 if '?' in item:
+#                     id_story = re.findall(r'/' + user + '/(.*?)\?', str(item))[0]
+#                 else:
+#                     id_story = re.findall(r'/' + user + '/(.*?)/', str(item))[0]
+#                 resp = info(user,'57770835548%3Anc6tKnpk1ar5qs%3A25%3AAYc0RSIg1FTSD47vDSc0sq-AI1_CeYZV7JCvRYSW-g')
+#                 myid = resp['user']['pk']
+
+#                 try:
+#                     respDownload = download_story(myid)
+#                 except:
+#                     #print('error call respDownload')
+#                     pass
+#                 i = 0
+#                 while True:
+#                     try:
+#                         link = respDownload['result'][i]['video_versions'][0]['url']
+#                         response = respDownload['result'][i]
+#                         if str(id_story) in str(response):
+#                             content = {"item",link}
+                            
+#                             break
+#                     except:
+#                         try:
+#                             link = respDownload['result'][i]['image_versions2']['candidates'][0]['url']
+#                             response = respDownload['result'][i]
+#                             if str(id_story) in str(response):
+#                                 content = {"item",link}
+#                                 break
+#                         except:
+#                             break
+#                         i += 1
+#             else:
+#                 try:
+#                     respVideo = download_video(item)
+#                     print(respVideo)
+#                 except:
+#                     print('error call respVideo')
+
+#                 content = {"item",respVideo['media']['data']['mediaList'][0]['videos'][0]['url']}
+#         else:
+#             resp = info(item,'57770835548%3Anc6tKnpk1ar5qs%3A25%3AAYc0RSIg1FTSD47vDSc0sq-AI1_CeYZV7JCvRYSW-g')
+#             myid = resp['user']['pk']
+            
+#             avatar = resp['user']['hd_profile_pic_url_info']['url']
+#             try:
+#                 name = resp['user']['full_name']
+#             except:
+#                 name = ''
+#             private = resp['user']['is_private']
+#             try:
+#                 bio = resp['user']['biography']
+#             except:
+#                 bio = ''
+#             txt = f'{name}\n-----------------------\n{bio}'
+#             content = {"item":avatar}
+#         return render(request,'free/resp-bot-instagram.html',content)
 # def initiate_payment(request):
 #     paypalrestsdk.configure({
 #         "mode": "sandbox", # Change to "live" for production
