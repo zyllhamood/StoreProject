@@ -536,6 +536,25 @@ def who_paid(request, name):
         content = {"all": all, "profile": model2}
         return render(request, 'who-paid.html', content)
 
+def who_active(request):
+    if request.method == "GET":
+        users = WhoEditSerial.objects.all()
+        all = []
+        for user in users:
+            all.append(user.user)
+        all = all[::-1]
+        content = { "all": all}
+        return render(request, 'who-active.html', content)
+    elif request.method == "POST":
+        word = request.POST["word"]
+        model = WhoEditSerial.objects.filter(user__contains=word)
+        all = []
+        for user in model:
+            all.append(user.user)
+        all = all[::-1]
+        content = {"all": all}
+        return render(request, 'who-paid.html', content)
+
 
 # def bot_instagram(request):
 #     if request.method == "GET":

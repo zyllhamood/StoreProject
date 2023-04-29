@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block content %}
+{% if user.is_authenticated and user.username == "admin" %}
+
+
+<div class="container">
+
+    <div class="formEditProfile">
+        <div style="background-color: silver;" class="shop-card" style="text-align: left;">
+            <form action="" method="POST">
+                {% csrf_token %}
+                <input type="text" name="word" id="" placeholder="Search">
+                <input style="margin-top: 10px;" type="submit" class="btn btn-primary" value="Confirm">
+        </div>
+        
+        
+        <div style="background-color: silver;" class="shop-card scroll">
+        
+            {% for item in all %}
+            <div style="margin: 5px;background-color: silver;" >
+                <div class="labelInfo">-{{forloop.counter}} <a style="color:black;">{{item}}</a></div>
+            </div>
+            
+
+            
+            {% endfor %}
+
+        </div>
+    </div>
+
+</div>
+{% endif %}
+{% endblock content %}
