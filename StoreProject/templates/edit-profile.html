@@ -12,7 +12,8 @@
     <div class="container">
         <div style="background-color: silver;" class="shop-card formEditProfile">
             {% csrf_token %}
-            {% if user.is_authenticated and user.profile.pk == profile.pk %}
+            
+            {% if user.is_authenticated %}
             <div style="margin: 5px;background-color: silver;" >
                 {{form.serial}}
             </div>

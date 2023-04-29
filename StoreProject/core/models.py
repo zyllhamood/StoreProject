@@ -55,3 +55,9 @@ class Trending(models.Model):
     product = models.OneToOneField(Product,on_delete=models.CASCADE)
     def __str__(self):
         return self.name
+    
+class WhoEditSerial(models.Model):
+    user = models.CharField(max_length=255,default = '')
+    date = models.DateTimeField()
+    def __str__(self):
+        return self.user
