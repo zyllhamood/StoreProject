@@ -45,7 +45,11 @@ urlpatterns = [
     path('delete-product/<int:pk>',delete_product,name='delete-product'),
 
     path('who-paid/<str:name>',who_paid,name='who-paid'),
-    path('who-active/',who_active,name='who-active')
+    path('who-active/',who_active,name='who-active'),
+
+    path('cart/<str:item>',cart_view,name='cart'),
+    path('delete-cart/',delete_cart,name='delete-cart'),
+
 
     #path('bot/',bot_instagram)
 

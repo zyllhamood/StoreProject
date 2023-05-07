@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.auth.models import User
 # Create your models here.
 from datetime import datetime
+from django_mysql.models import ListCharField
+
 class Product(models.Model):
     name = models.CharField(max_length=255)
     video = models.URLField(default='',blank=True)
@@ -59,5 +61,11 @@ class Trending(models.Model):
 class WhoEditSerial(models.Model):
     user = models.CharField(max_length=255,default = '')
     date = models.DateTimeField()
+    def __str__(self):
+        return self.user
+
+class Basket(models.Model):
+    user = models.CharField(max_length=255,default = '')
+    items = models.CharField(max_length=1500,default= '')
     def __str__(self):
         return self.user

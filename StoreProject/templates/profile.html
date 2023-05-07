@@ -14,7 +14,12 @@
     <div class="container">
         <div style="background-color: silver;" class="shop-card">
             {% if user.is_authenticated %}
-        
+            
+            {% if user.profile.email_or_username == "" %}
+
+                <div class="labelInfo">Username : {{user.username}}</div>
+                <div class="labelInfo">You haven't buy anything yet</div>
+            {% else %}
             {% if '@' in user.profile.email_or_username %}
             <div class="labelInfo">Email : {{user.profile.email_or_username}}</div>
             {% else %}
@@ -36,6 +41,9 @@
             <div class="labelInfo">{{user.profile.serial}}</div>
             <a class="labelInfo" style="padding-top: 40px;color:rgb(112, 78, 78);" href="{% url 'edit-profile' user.profile.id %}">Edit Serial</a>
             {% endif %}
+            {% endif %}
+                
+            
         </div>
     </div>
 </form>

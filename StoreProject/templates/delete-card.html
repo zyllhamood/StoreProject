@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+
+<div class="container">
+    <div>
+        <div style="background-color: silver;padding-top: 20px;" class="shop-card">
+            <form action="" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                Are you sure you want to delete all cart ? 
+                <div style="width:100%;margin: 5px;background-color: silver;border: 1px solid silver" class="form-control">
+                    <input style="width: 200px;" class="btn btn-danger" type="submit" value="Delete">
+                </div>
+            </form>
+        </div>
+        
+    </div>
+    
+</div>
+
+
+{% endblock content %}
+

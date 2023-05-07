@@ -9,7 +9,7 @@ from rest_framework.decorators import throttle_classes, action, permission_class
 from django.views.generic.list import ListView
 from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.decorators import login_required
-from .models import Product, GroupProduct, Profile, RDP, FreeTool, Trending,WhoEditSerial
+from .models import Product, GroupProduct, Profile, RDP, FreeTool, Trending,WhoEditSerial,Basket
 from .serializers import ProductSerializer, ProfileSerializer, UserSerializer
 from .forms import ProductForm, ProductFormPK, ProfileFormPK, ProfileForm, EditProfile
 from decimal import Decimal
@@ -27,7 +27,6 @@ from django.http import JsonResponse
 from django.http import HttpResponse
 from django_ratelimit.decorators import ratelimit
 from collections import OrderedDict
-import paypalrestsdk
 import json
 from django.shortcuts import redirect
 import datetime
@@ -216,7 +215,7 @@ class EditProfileView(generic.UpdateView):
     template_name = "edit-profile.html"
     success_url = '/profile/'
 
-
+#@ratelimit(key='ip', rate='3/h')
 def edit_profile(request, pk):
     obj = get_object_or_404(Profile, pk=pk)
     if request.method == 'POST':
@@ -541,7 +540,7 @@ def who_active(request):
         users = WhoEditSerial.objects.all()
         all = []
         for user in users:
-            all.append(user.user)
+            all.append(user.user + " : " + str(user.date))
         all = all[::-1]
         content = { "all": all}
         return render(request, 'who-active.html', content)
@@ -555,74 +554,77 @@ def who_active(request):
         content = {"all": all}
         return render(request, 'who-paid.html', content)
 
+def cart_view(request,item):
+    model = Basket.objects.all()
+    products = Product.objects.all()
+    if request.user.username not in str(model):
+        cart = Basket.objects.create(user=request.user.username)
 
-# def bot_instagram(request):
-#     if request.method == "GET":
-#         return render(request,'free/bot-instagram.html')
-#     elif request.method == "POST":
-#         item = request.POST["item"]
-#         if 'https://' in item:
-#             if 'stories' in item:
-#                 user = re.findall(r'stories/(.*?)/', str(item))[0]
-#                 if '?' in item:
-#                     id_story = re.findall(r'/' + user + '/(.*?)\?', str(item))[0]
-#                 else:
-#                     id_story = re.findall(r'/' + user + '/(.*?)/', str(item))[0]
-#                 resp = info(user,'57770835548%3Anc6tKnpk1ar5qs%3A25%3AAYc0RSIg1FTSD47vDSc0sq-AI1_CeYZV7JCvRYSW-g')
-#                 myid = resp['user']['pk']
+    it = Basket.objects.get(user=request.user.username)
+    allItems = []
+    if item not in it.items:
+        for iii in products:
+            allItems.append(iii)
+        if item in str(allItems):
+            it.items = it.items + item + "|"
+            Basket.objects.update(items=it.items)
+    names = it.items.split('|')
+    names.pop()
 
-#                 try:
-#                     respDownload = download_story(myid)
-#                 except:
-#                     #print('error call respDownload')
-#                     pass
-#                 i = 0
-#                 while True:
-#                     try:
-#                         link = respDownload['result'][i]['video_versions'][0]['url']
-#                         response = respDownload['result'][i]
-#                         if str(id_story) in str(response):
-#                             content = {"item",link}
+    all = 0
+    for product in products:
+        if product.name in names:
+            all = all + product.price
 
-#                             break
-#                     except:
-#                         try:
-#                             link = respDownload['result'][i]['image_versions2']['candidates'][0]['url']
-#                             response = respDownload['result'][i]
-#                             if str(id_story) in str(response):
-#                                 content = {"item",link}
-#                                 break
-#                         except:
-#                             break
-#                         i += 1
-#             else:
-#                 try:
-#                     respVideo = download_video(item)
-#                     print(respVideo)
-#                 except:
-#                     print('error call respVideo')
+    client = Client(api_key=settings.COINBASE_COMMERCE_API_KEY)
+    product = {
+        'name': ",".join(names),
+        'local_price':{
+            'amount': str(all),
+            'currency': 'USD'
+            } ,
+        'pricing_type': 'fixed_price',
+    }
 
-#                 content = {"item",respVideo['media']['data']['mediaList'][0]['videos'][0]['url']}
-#         else:
-#             resp = info(item,'57770835548%3Anc6tKnpk1ar5qs%3A25%3AAYc0RSIg1FTSD47vDSc0sq-AI1_CeYZV7JCvRYSW-g')
-#             myid = resp['user']['pk']
+    if all > 0:
+        #charge = client.charge.create(**product)
+        charge = ""
+    else:
+        charge = ""
+    content = {"new": it.items.split('|'),"products":products,"all":all,"charge":charge}
+    return render(request,'basket.html',content)
+def delete_cart(request):
+    if request.method == "GET":
+        return render(request, 'delete-card.html')
+    elif request.method == "POST":
+        Basket.objects.filter(user=request.user.username).delete()
+        return redirect('/tools/')
 
-#             avatar = resp['user']['hd_profile_pic_url_info']['url']
-#             try:
-#                 name = resp['user']['full_name']
-#             except:
-#                 name = ''
-#             private = resp['user']['is_private']
-#             try:
-#                 bio = resp['user']['biography']
-#             except:
-#                 bio = ''
-#             txt = f'{name}\n-----------------------\n{bio}'
-#             content = {"item":avatar}
-#         return render(request,'free/resp-bot-instagram.html',content)
+# def basket_view(request,item):
+#     model = Basket.objects.all()
+#     form = CardForm
+#     print(model)
+#     if request.user.username in str(model):
+#         products = Product.objects.all()
+#         for product in products:
+#             if product.name == item:
+#                 #card.items.set([product.id])
+#                 new = Basket.objects.get(id=product.id)
+#                 new.items.set([product.id])
+#                 new.save()
+#     else:
+#         card = Basket.objects.create(user=request.user.username)
+#         products = Product.objects.all()
+#         for product in products:
+#             if product.name == item:
+#                 card.items.set([product.id])
+#         card.save()
+#     model = Basket.objects.all()
+#     content = {"model": model,"form":form}
+#     return render(request,'basket.html',content)
 # def initiate_payment(request):
 #     paypalrestsdk.configure({
-#         "mode": "sandbox", # Change to "live" for production
+#         "mode": "live", # Change to "live" for production
 #         "client_id": "AZpt5wQM3iptzOsEiBwerlcwL64Cw6AkgrLFKHtGJMDDa-m1IxSZeAJZT6WZ4Rx3G7bKMamqLb9GbTY2",
 #         "client_secret": "EGG5ZxmqLZHOFVPdsmAL0gQ7TK2fT0mPNX_28uB5mZTzsJ69GWb9Y89mKehE8126PIUaT0U_NrrNJsKj"
 #     })

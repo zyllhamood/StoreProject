@@ -14,10 +14,10 @@ django-summernote = "*"
 python-decouple = "*"
 coinbase-commerce = "*"
 requests = "*"
-django-paypal = "*"
 django-redis = "*"
 django-ratelimit = "*"
-paypalrestsdk = "*"
+django-redirect = "*"
+django-mysql = "*"
 
 [dev-packages]
 

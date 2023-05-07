@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block status %}
+    
+{% if user.is_authenticated %}
+    <a href="{% url 'logouturl' %}"><img src="{% static 'images/logout.png' %}" alt="" width="23" height="23"></a>
+    {% else %}
+    <a href="{% url 'loginurl' %}"><img src="{% static 'images/login.png' %}" alt="" width="23" height="23"></a>
+    {% endif %}
+        
+{% endblock status %}
+    
+{% block content %}
+
+<div class="container cls1">
+    <div class="row">
+        
+            {% csrf_token %}
+            <div class="col-xl-6">
+                <div style="background-color: silver;" class="shop-card">
+            {% for product in products %}
+            {% for item in new %}
+            
+                
+                {% if item == product.name %}
+                
+                        <!-- <img src="{{product.image.url}}" alt="" width="260" height="230"> -->
+                        <!-- <div class="clsFontTitle">
+                            <a href="" class="btn btn-silver" style="width: 250px;background-color: rgb(130, 130, 130);color: rgb(0, 0, 0);">{{product.name}}</a>
+                        </div> -->
+                          <div class="clsFontPrice" style="font-size: 1.6em;">
+                            {{product.name}} : {{product.price}}$
+                          </div>
+                          
+                    
+                {% endif %}
+                    
+            
+            {% endfor %}
+            {% endfor %}
+            <a href="{{ charge.hosted_url }}" class="btn btn-dark" id="btnBuy">Buy all for {{all}}$</a>
+            <a href="{% url 'delete-cart' %}" class="btn btn-danger" style="font-size: small;" id="btnBuy">Delete All Cart</a>
+            
+        </div>
+    </div>
+            
+        
+        
+    </div>
+
+</div>
+        
+        
+        <!-- <div style="width:fit-content;margin: 5px;" class="form-control">
+            {{form.email_or_username}}
+        </div> -->
+        
+    
+
+    
+{% endblock content %}
