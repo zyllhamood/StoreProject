@@ -3,7 +3,10 @@ from .models import *
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import User
 from django_summernote.admin import SummernoteModelAdmin
+from .views import admin_required
+
 # Register your models here.
+
 
 class SomeModelAdmin(SummernoteModelAdmin):  # instead of ModelAdmin
     summernote_fields = ('dis',)
@@ -25,3 +28,4 @@ admin.site.register(Trending)
 admin.site.register(Profile)
 admin.site.register(WhoEditSerial)
 admin.site.register(Basket)
+admin.site.login = admin_required(admin.site.login)

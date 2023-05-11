@@ -30,6 +30,7 @@ from collections import OrderedDict
 import json
 from django.shortcuts import redirect
 import datetime
+from django.contrib.admin.views.decorators import user_passes_test
 
 def get_coupun(price):
     amount = 0.20
@@ -599,7 +600,19 @@ def delete_cart(request):
     elif request.method == "POST":
         Basket.objects.filter(user=request.user.username).delete()
         return redirect('/tools/')
+    
+from django.contrib.admin.views.decorators import user_passes_test
 
+def admin_required(view_func):
+    """
+    Decorator for views that checks that the user is an admin.
+    """
+    decorated_view_func = user_passes_test(
+        lambda u: u.is_active and u.is_superuser,
+        login_url='/admin/login/',
+        redirect_field_name=None
+    )(view_func)
+    return decorated_view_func
 # def basket_view(request,item):
 #     model = Basket.objects.all()
 #     form = CardForm
