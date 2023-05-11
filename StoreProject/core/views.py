@@ -9,7 +9,7 @@ from rest_framework.decorators import throttle_classes, action, permission_class
 from django.views.generic.list import ListView
 from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.decorators import login_required
-from .models import Product, GroupProduct, Profile, RDP, FreeTool, Trending,WhoEditSerial,Basket
+from .models import Product, GroupProduct, Profile, RDP, FreeTool, Trending,WhoEditSerial,Basket,Serial
 from .serializers import ProductSerializer, ProfileSerializer, UserSerializer
 from .forms import ProductForm, ProductFormPK, ProfileFormPK, ProfileForm, EditProfile
 from decimal import Decimal
@@ -216,16 +216,24 @@ class EditProfileView(generic.UpdateView):
     template_name = "edit-profile.html"
     success_url = '/profile/'
 
+
+
 #@ratelimit(key='ip', rate='3/h')
 def edit_profile(request, pk):
     obj = get_object_or_404(Profile, pk=pk)
     if request.method == 'POST':
+        serials = Serial.objects.all()
+        myserial = request.POST['serial']
+        if str(myserial) in str(serials):
+            return HttpResponse("Serial is edited before. You cannot repeat same serial")
         form = ProfileFormPK(request.POST, instance=obj)
         if form.is_valid():
             form.save()
             who_edit = WhoEditSerial.objects.create(user=request.user.username,date=datetime.datetime.now())
             who_edit.save()
-            print('done edit')
+            add_serial = Serial.objects.create(user=request.user.username,serial=request.POST['serial'])
+            print(request.POST['serial'])
+            add_serial.save()
             return redirect('profile')
     else:
         form = ProfileFormPK(instance=obj)

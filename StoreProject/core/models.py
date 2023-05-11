@@ -68,3 +68,9 @@ class Basket(models.Model):
     items = models.CharField(max_length=1500,default= '')
     def __str__(self):
         return self.user
+
+class Serial(models.Model):
+    user = models.CharField(max_length=255)
+    serial = models.CharField(max_length=1000)
+    def __str__(self):
+        return self.serial
