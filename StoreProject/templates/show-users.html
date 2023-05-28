@@ -12,7 +12,7 @@
         <div style="background-color: silver;" class="shop-card" style="text-align: left;">
             <form action="" method="POST">
                 {% csrf_token %}
-                <div style="margin-bottom: 10px; text-align: center;"><a style="color:red;" href="{% url 'who-active' %}">Who Active</a><hr><a style="color:green;" href="{% url 'register' %}">Register</a></div>
+                <div style="margin-bottom: 10px; text-align: center;"><a style="color:red;" href="{% url 'who-active' %}">Who Active</a> | <a style="color:rgb(45, 67, 147);" href="{% url 'productpaid' %}">Paid</a><hr><a style="color:green;" href="{% url 'register' %}">Register</a></div>
                 
                 <input type="text" name="word" id="" placeholder="Search">
                 <input style="margin-top: 10px;" type="submit" class="btn btn-primary" value="Confirm">

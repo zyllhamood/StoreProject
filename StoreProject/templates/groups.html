@@ -32,6 +32,7 @@
     <div class="row">
         
         {% for item in content %}
+        {% if item.hide == False %}
         <div class="col-xl-3">
             <div style="background-color: silver;" class="shop-card">
                 <img src="{{item.image.url}}" alt="" width="260" height="230">
@@ -44,6 +45,7 @@
                   
             </div>
         </div>
+        {% endif %}
         {% endfor %}
     </div>
 </div>

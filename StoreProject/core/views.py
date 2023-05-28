@@ -9,7 +9,7 @@ from rest_framework.decorators import throttle_classes, action, permission_class
 from django.views.generic.list import ListView
 from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.decorators import login_required
-from .models import Product, GroupProduct, Profile, RDP, FreeTool, Trending,WhoEditSerial,Basket,Serial
+from .models import Product, GroupProduct, Profile, RDP, FreeTool, Trending,WhoEditSerial,Basket,Serial,ProductsPaid
 from .serializers import ProductSerializer, ProfileSerializer, UserSerializer
 from .forms import ProductForm, ProductFormPK, ProfileFormPK, ProfileForm, EditProfile
 from decimal import Decimal
@@ -221,6 +221,7 @@ class EditProfileView(generic.UpdateView):
 #@ratelimit(key='ip', rate='3/h')
 def edit_profile(request, pk):
     obj = get_object_or_404(Profile, pk=pk)
+    print(obj)
     if request.method == 'POST':
         serials = Serial.objects.all()
         myserial = request.POST['serial']
@@ -449,13 +450,69 @@ def show_users(request):
         return render(request, 'show-users.html', content)
 
 
-def edit_user(request, user):
-    model = Profile.objects.get(email_or_username=user)
+def edit_user(request, pk):
+    obj = get_object_or_404(Profile, pk=pk)
+    old = []
+    for item in obj.product.all():
+        old.append(item)
 
-    content = {"user": model}
-    return render(request, 'edit-user.html', content)
+    if request.method == 'POST':
+        form = EditProfile(request.POST, instance=obj)
+        if form.is_valid():
+            form.save()
+            new = get_object_or_404(Profile, pk=pk)
+            for product in new.product.all():
+                if product not in old:
+                    print(obj)
+                    dt = datetime.datetime.now()
+                    
+                    formatted_dt = dt.strftime('%Y-%m-%d %H:%M')
+                    
+                    productpaid = ProductsPaid.objects.create(user=obj.email_or_username,item=str(product),date=formatted_dt)
+                    productpaid.save()
+                    #print(product)
+            return redirect('show-users')
+    else:
+        form = ProfileFormPK(instance=obj)
+    return render(request, 'edit-user.html', {'form': form})
 
+def productPaid(request):
+    
+    if request.method == "GET":
+        users = ProductsPaid.objects.all()
+        all = []
+        pks = []
+        for user in users:
+            all.append(user.user + " : " + user.item +  " : " + str(user.date))
+            pks.append(user.pk)
+        all = all[::-1]
+        pks = pks[::-1]
+        content = { "all": all,"pks": pks}
 
+        mylist = zip(all, pks)
+        context = {'mylist': mylist}
+        # context = {}
+        # for item, id in zip(all, pks):
+        #     context[item] = id
+        
+        return render(request, 'productpaid.html', context)
+    elif request.method == "POST":
+        word = request.POST["word"]
+        model = ProductsPaid.objects.filter(user__contains=word)
+        all = []
+        for user in model:
+            all.append(user.user)
+            pks.append(user.pk)
+        all = all[::-1]
+        pks = pks[::-1]
+        content = { "all": all,"pks": pks}
+        return render(request, 'productpaid.html', content)
+def delete_product_paid(request, pk):
+    if request.method == "GET":
+        return render(request, 'delete-product-paid.html')
+    elif request.method == "POST":
+        ProductsPaid.objects.filter(pk=pk).delete()
+        return redirect('/productpaid/')
 class EditUser(generic.UpdateView):
     model = Profile
     form = EditProfile()

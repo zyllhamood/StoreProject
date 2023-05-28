@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block content %}
+{% if user.is_authenticated and user.username == "admin" %}
+
+
+<div class="container">
+
+    <div class="formEditProfile" style="left: 20%;width: 80%;">
+
+        <div style="background-color: silver;" class="shop-card scroll">
+            
+            {% for item, pk in mylist %}
+            <div style="margin: 5px;background-color: silver;" >
+                <div class="labelInfo">-{{forloop.counter}} <a style="color:black;">{{item}}</a> <a href="{% url 'delete-product-paid' pk=pk %}">Delete</a></div>
+            </div>
+            
+
+            
+            {% endfor %}
+           
+
+        </div>
+    </div>
+
+</div>
+
+
+{% endif %}
+{% endblock content %}

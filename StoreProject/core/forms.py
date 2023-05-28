@@ -52,7 +52,7 @@ class ProfileForm(forms.ModelForm):
 class ProfileFormPK(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ('serial',)
+        fields = '__all__'
 
 class EditProfile(forms.ModelForm):
     class Meta:

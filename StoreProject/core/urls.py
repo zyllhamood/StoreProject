@@ -39,7 +39,8 @@ urlpatterns = [
     path('reset-instagram/',reset_instagram),
 
     path('show-users/',show_users,name='show-users'),
-    path('profile/<int:pk>',EditUser.as_view(),name='edit-user'),
+    #path('profile/<int:pk>',EditUser.as_view(),name='edit-user'),
+    path('profile/<int:pk>',edit_user,name='edit-user'),
     path('profile/new/',CreateProfile.as_view(),name='new-profile'),
 
     path('delete-product/<int:pk>',delete_product,name='delete-product'),
@@ -49,6 +50,9 @@ urlpatterns = [
 
     path('cart/<str:item>',cart_view,name='cart'),
     path('delete-cart/',delete_cart,name='delete-cart'),
+
+    path('productpaid/',productPaid,name='productpaid'),
+    path('delete-product-paid/<int:pk>',delete_product_paid,name='delete-product-paid')
 
 
     #path('bot/',bot_instagram)
