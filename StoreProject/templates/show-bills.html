@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block content %}
+{% if user.is_authenticated and user.username == "admin" %}
+
+
+<div class="container">
+
+    <div class="formEditProfile">
+        <div style="background-color: silver;" class="shop-card" style="text-align: left;">
+        <a style="color:red;" href="{% url 'add-bill' %}">Add Bill</a>
+        </div>
+        <div style="background-color: silver;" class="shop-card scroll">
+            
+            {% for item in model %}
+            <div style="margin: 5px;background-color: silver;" >
+                <div class="labelInfo">-{{forloop.counter}} <a style="color:black;">{{item.name}} : {{item.amount}}
+                    
+                    {% if 'Binance' in item.paid_method or 'BTC' in item.paid_method or 'PayPal' in item.paid_method %}
+                        $
+                    {% endif %}
+                        
+                    ||| {{item.paid_method}} ||| {{item.date}}</a></div>
+            </div>
+            
+
+            
+            {% endfor %}
+           
+
+        </div>
+    </div>
+
+</div>
+
+
+{% endif %}
+{% endblock content %}

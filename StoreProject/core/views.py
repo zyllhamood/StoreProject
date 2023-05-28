@@ -9,9 +9,9 @@ from rest_framework.decorators import throttle_classes, action, permission_class
 from django.views.generic.list import ListView
 from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.decorators import login_required
-from .models import Product, GroupProduct, Profile, RDP, FreeTool, Trending,WhoEditSerial,Basket,Serial,ProductsPaid
+from .models import *
 from .serializers import ProductSerializer, ProfileSerializer, UserSerializer
-from .forms import ProductForm, ProductFormPK, ProfileFormPK, ProfileForm, EditProfile
+from .forms import ProductForm, ProductFormPK, ProfileFormPK, ProfileForm, EditProfile,BillForm
 from decimal import Decimal
 from StoreProject import settings
 from coinbase_commerce.client import Client
@@ -246,6 +246,7 @@ def add_data(request, pk):
         form = ProfileFormPK(request.POST)
         if form.is_valid():
             form.save()
+
             return redirect('profile')
     else:
         form = ProfileFormPK()
@@ -678,6 +679,26 @@ def admin_required(view_func):
         redirect_field_name=None
     )(view_func)
     return decorated_view_func
+
+def add_bill(request):
+    if request.method == 'POST':
+        form = BillForm(request.POST)
+        if form.is_valid():
+            
+            profile = form.save(commit=False)
+            profile.date = datetime.datetime.now()
+            profile.save()
+
+            
+            return redirect('show-bills')
+    else:
+        form = BillForm()
+    return render(request, 'bill.html', {'form': form})
+def show_bills(request):
+    model = Bill.objects.all().order_by('-date')
+    
+    content = {"model": model}
+    return render(request, 'show-bills.html', content)
 # def basket_view(request,item):
 #     model = Basket.objects.all()
 #     form = CardForm

@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block status %}
+{% if user.is_authenticated %}
+<a href="{% url 'logouturl' %}"><img src="{% static 'images/logout.png' %}" alt="" width="23" height="23"></a>
+{% else %}
+<a href="{% url 'loginurl' %}"><img src="{% static 'images/login.png' %}" alt="" width="23" height="23"></a>
+{% endif %}
+{% endblock status %}
+{% block content %}
+{% if user.is_authenticated and user.username == "admin" %}
+    
+<form method="post" action="">
+    
+   
+        
+   
+        
+    <div class="container">
+        <div style="background-color: silver;" class="shop-card formEditProfile">
+            {% csrf_token %}
+            <div style="margin: 5px;background-color: silver;" >
+                
+                <input type="text" name="name" id="name" value="Program">
+            </div>
+            <div style="margin: 5px;background-color: silver;" >
+                Paid Method : <br>
+                <select name="paid_method">
+                    <option value="Binance">Binance</option>
+                    <option value="StcPay Nader">StcPay Nader</option>
+                    <option value="Ahli Waill">Ahli Waill</option>
+                    <option value="BTC Coinbase">BTC Coinbase</option>
+                    <option value="Stc">Stc</option>
+                    <option value="StcPay Waill">StcPay Waill</option>
+                    <option value="PayPal">PayPal</option>
+                    <option value="BTC Commerce">BTC Commerce</option>
+                    <option value="Raghi Waill">Raghi Waill</option>
+                </select>
+            </div>
+            <div style="margin: 5px;background-color: silver;" >
+            Amount : {{form.amount}}
+            </div>
+            <div style="margin: 5px;background-color: silver;" >
+                Note : 
+                <textarea name="note" id="note" cols="18" rows="10"></textarea>
+                
+            </div>
+            
+            <div style="margin: 5px;background-color: silver;">
+                <input style="width: 190px;" class="btn btn-primary" type="submit" value="Add Bill">
+            </div>
+            <!-- <div style="width:fit-content;margin: 5px;" class="form-control">
+                {{form.email_or_username}}
+            </div> -->
+            
+        </div>
+    </div>
+
+</form>
+{% endif %}
+{% endblock content %}

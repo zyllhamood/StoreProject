@@ -52,7 +52,10 @@ urlpatterns = [
     path('delete-cart/',delete_cart,name='delete-cart'),
 
     path('productpaid/',productPaid,name='productpaid'),
-    path('delete-product-paid/<int:pk>',delete_product_paid,name='delete-product-paid')
+    path('delete-product-paid/<int:pk>',delete_product_paid,name='delete-product-paid'),
+
+    path('add-bill/',add_bill,name='add-bill'),
+    path('show-bills/',show_bills,name='show-bills')
 
 
     #path('bot/',bot_instagram)

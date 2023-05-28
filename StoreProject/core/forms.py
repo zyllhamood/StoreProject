@@ -1,6 +1,6 @@
 from django import forms
 from django_summernote.widgets import SummernoteWidget, SummernoteInplaceWidget
-from .models import Product,Profile,RDP
+from .models import Product,Profile,RDP,Bill
 from django.contrib.auth.models import User
 from django_summernote.fields import SummernoteTextFormField, SummernoteTextField
 from django_summernote.widgets import SummernoteWidget
@@ -58,8 +58,12 @@ class EditProfile(forms.ModelForm):
     class Meta:
         model = Profile
         fields = '__all__'
-    
-    
+
+class BillForm(forms.ModelForm):
+    class Meta:
+        model = Bill
+        fields = ['name','paid_method','amount','note']
+
 # class RdpForm(forms.ModelForm):
 #     class Meta:
 #         model = RDP
