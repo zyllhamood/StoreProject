@@ -83,6 +83,7 @@ class ProductsPaid(models.Model):
 class Bill(models.Model):
     name = models.CharField(max_length=500)
     paid_method = models.CharField(max_length=500)
+    type = models.CharField(max_length=500,default='')
     amount = models.DecimalField(max_digits=12, decimal_places=2,default=0.00)
     note = models.TextField(blank=True)
     date = models.DateTimeField()

@@ -697,7 +697,26 @@ def add_bill(request):
 def show_bills(request):
     model = Bill.objects.all().order_by('-date')
     
-    content = {"model": model}
+    incomes_us = 0.0
+    incomes_sa = 0.0
+    expenses_us = 0.0
+    expenses_sa = 0.0
+    total_sa = 0.0
+    total_us = 0.0
+    for item in model:
+        if item.type == 'income':
+            if 'Binance' in item.paid_method or 'BTC' in item.paid_method or 'PayPal' in item.paid_method:
+                incomes_us = Decimal(incomes_us) + item.amount
+            else:
+                incomes_sa = Decimal(incomes_sa) + item.amount
+        else:
+            if 'Binance' in item.paid_method or 'BTC' in item.paid_method or 'PayPal' in item.paid_method:
+                expenses_us = Decimal(expenses_us) + item.amount
+            else:
+                expenses_sa = Decimal(expenses_sa) + item.amount
+    total_sa = Decimal(incomes_sa) - Decimal(expenses_sa)
+    total_us = Decimal(incomes_us) - Decimal(expenses_us)
+    content = {"model": model,"expenses_sa":expenses_sa,"expenses_us":expenses_us,"incomes_us":incomes_us,"incomes_sa":incomes_sa,"total_sa":total_sa,"total_us":total_us}
     return render(request, 'show-bills.html', content)
 # def basket_view(request,item):
 #     model = Basket.objects.all()

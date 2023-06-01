@@ -13,16 +13,27 @@
         <a style="color:red;" href="{% url 'add-bill' %}">Add Bill</a>
         </div>
         <div style="background-color: silver;" class="shop-card scroll">
-            
+            <a style="color:green;">Incomes : {{incomes_sa}} || {{incomes_us}}$ </a><br>
+            <a style="color:red;">Expenses : -{{expenses_sa}} || -{{expenses_us}}$</a><br>
+            <a style="color:black;">Balance : {{total_sa}} || {{total_us}}$</a><hr>
             {% for item in model %}
             <div style="margin: 5px;background-color: silver;" >
-                <div class="labelInfo">-{{forloop.counter}} <a style="color:black;">{{item.name}} : {{item.amount}}
+                
+                <div class="labelInfo">-{{forloop.counter}}
                     
-                    {% if 'Binance' in item.paid_method or 'BTC' in item.paid_method or 'PayPal' in item.paid_method %}
-                        $
+                    {% if item.type == 'income' %}
+                    <a style="color:green;">{{item.name}} : {{item.amount}}
+                        {% if 'Binance' in item.paid_method or 'BTC' in item.paid_method or 'PayPal' in item.paid_method %}
+                            ${% endif %}||| {{item.paid_method}} ||| {{item.date}}</a>
+                    {% else %}
+                    <a style="color:red;">{{item.name}} : -{{item.amount}}
+                        {% if 'Binance' in item.paid_method or 'BTC' in item.paid_method or 'PayPal' in item.paid_method %}
+                            ${% endif %}||| {{item.paid_method}} ||| {{item.date}}</a>
                     {% endif %}
                         
-                    ||| {{item.paid_method}} ||| {{item.date}}</a></div>
+                    
+                
+                </div>
             </div>
             
 

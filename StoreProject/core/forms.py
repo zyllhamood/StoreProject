@@ -62,7 +62,7 @@ class EditProfile(forms.ModelForm):
 class BillForm(forms.ModelForm):
     class Meta:
         model = Bill
-        fields = ['name','paid_method','amount','note']
+        fields = ['name','paid_method','type','amount','note']
 
 # class RdpForm(forms.ModelForm):
 #     class Meta:
