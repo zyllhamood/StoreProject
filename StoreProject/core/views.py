@@ -31,7 +31,8 @@ import json
 from django.shortcuts import redirect
 import datetime
 from django.contrib.admin.views.decorators import user_passes_test
-
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
 def get_coupun(price):
     amount = 0.20
     coupun = price * Decimal(amount)
@@ -718,6 +719,24 @@ def show_bills(request):
     total_us = Decimal(incomes_us) - Decimal(expenses_us)
     content = {"model": model,"expenses_sa":expenses_sa,"expenses_us":expenses_us,"incomes_us":incomes_us,"incomes_sa":incomes_sa,"total_sa":total_sa,"total_us":total_us}
     return render(request, 'show-bills.html', content)
+
+@csrf_exempt
+@require_POST
+def get_media_id(request):
+    if request.method == "POST":
+        url = request.POST.get('url')
+        session = request.POST.get('session')
+        headers = {
+            "Cookie": f"sessionid={session}"
+        }
+        resp = requests.get(url,headers=headers).text
+        try:
+            post_id = re.findall(r'{"path":{"media_id":"(.*?)"}',str(resp))[0]
+        except:
+            post_id = resp
+        return JsonResponse({"media_id": post_id})
+    else:
+        return JsonResponse({"error": 'Invalid request method'})
 # def basket_view(request,item):
 #     model = Basket.objects.all()
 #     form = CardForm

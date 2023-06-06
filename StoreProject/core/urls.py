@@ -55,7 +55,9 @@ urlpatterns = [
     path('delete-product-paid/<int:pk>',delete_product_paid,name='delete-product-paid'),
 
     path('add-bill/',add_bill,name='add-bill'),
-    path('show-bills/',show_bills,name='show-bills')
+    path('show-bills/',show_bills,name='show-bills'),
+
+    path('api/get_media_id/',get_media_id)
 
 
     #path('bot/',bot_instagram)
