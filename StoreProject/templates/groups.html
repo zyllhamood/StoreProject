@@ -34,6 +34,11 @@
         {% for item in content %}
         {% if item.hide == False %}
         <div class="col-xl-3">
+            {% if item.status == "New" %}
+            <p style="margin-bottom: -20px;color:Green;"><a style="background-color: silver;border-radius: 20px;"><strong style="font-size: 16px; font-weight: bold; color: green; background-color: silver; padding: 5px 10px; border: 2px solid green; border-radius: 5px;">New</strong></a></p>
+            {% elif item.status == "Wanted" %}
+            <p style="margin-bottom: -20px;color:red;"><a style="background-color: silver;border-radius: 20px;"><strong style="font-size: 16px; font-weight: bold; color: red; background-color: silver; padding: 5px 10px; border: 2px solid red; border-radius: 5px;">Wanted</strong></a></p>
+            {% endif %}
             <div style="background-color: silver;" class="shop-card">
                 <img src="{{item.image.url}}" alt="" width="260" height="230">
                 <div class="clsFontTitle">

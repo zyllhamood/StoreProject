@@ -59,7 +59,7 @@ display:inline-block;;
     text-align: center;
     z-index: 2;
     margin-bottom: 20px;
-    margin-top: 20px;
+    /* margin-top: 20px; */
     
 }
   
