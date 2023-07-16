@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block status %}
+{% if user.is_authenticated %}
+<a href="{% url 'logouturl' %}"><img src="{% static 'images/logout.png' %}" alt="" width="23" height="23"></a>
+{% else %}
+<a href="{% url 'loginurl' %}"><img src="{% static 'images/login.png' %}" alt="" width="23" height="23"></a>
+{% endif %}
+{% endblock status %}
+{% block content %}
+<div class="container">
+    <div style="padding-bottom: 15px;"></div>
+    <form action="" method="post">
+        {% csrf_token %}
+        <div style="background-color: silver;" class="shop-card">
+            <div class="divUrl">
+                <input style="text-align: center;" class="textUrl" placeholder="ID" type="text" id="pk" name="pk">
+            </div>
+            <div style="margin-top:20px;"><input type="submit" width="100%" class="btn btn-secondary" value="Get User"></div>
+            
+        
+        
+        </div>
+    </form>
+        
+        
+    </div>
+{% endblock content %}
+
+    

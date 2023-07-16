@@ -31,6 +31,7 @@ class ProductFormPK(forms.ModelForm):
     price = forms.DecimalField(widget=forms.TextInput(attrs={'style': 'width: 59%;background-color:silver;'}))
     type = forms.CharField(widget=forms.TextInput(attrs={'style': 'width: 59%;background-color:silver;'}))
     link = forms.CharField(widget=forms.TextInput(attrs={'style': 'width: 59%;background-color:silver;'}))
+    status = forms.CharField(widget=forms.TextInput(attrs={'style': 'width: 59%;background-color:silver;'}))
     id_place = forms.IntegerField(widget=forms.TextInput(attrs={'style': 'width: 59%;background-color:silver;'}))
     #dis = forms.CharField(widget=SummernoteWidget(attrs={'style': 'background-color:silver;'}))
     dis = forms.CharField(widget=forms.Textarea(attrs={'style': 'background-color:silver;'}))

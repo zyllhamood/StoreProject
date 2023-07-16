@@ -737,6 +737,53 @@ def get_media_id(request):
         return JsonResponse({"media_id": post_id})
     else:
         return JsonResponse({"error": 'Invalid request method'})
+def get_authtoken(request):
+    if request.method == "GET":
+        return render(request, 'free/get-authtoken.html', {"resp": "57770835548%3AEce3stFv2Oul5q%3A16%3AAYcF1MONzV_VuzLU9CD6kSm0X8ReomStLQBoPsZEkQ"})
+    elif request.method == "POST":
+        username = request.POST['username']
+        password = request.POST['password']
+        url = 'https://i.instagram.com/api/v1/accounts/login/'
+        headers = {
+                'user-agent': 'Instagram 169.1.0.29.135 Android (30/11; 240dpi; 1200x1848; samsung; SM-T515; gta3xl; exynos7904; en_US; 262886984) ',
+                'content-type': 'application/x-www-form-urlencoded; charset=UTF-8 ',
+                }
+        data = 'signed_body=SIGNATURE.{"jazoest":"","country_codes":"[{\\"country_code\\":\\"1\\",\\"source\\":[\\"default\\"]}]","enc_password":"#PWD_INSTAGRAM:0:0000000000:'+password+'","username":"'+username+'","adid":"bfbbf2c3-bb3d-4161-b856-599cff8a2cb9","guid":"5fe6a92f-e663-4e51-8068-ebd110ccadb2","device_id":"android-2b3d7104dd46bb5a","google_tokens":"[]","login_attempt_count":"0"}'
+        resp = requests.post(url, headers=headers, data=data)
+        if 'logged_in_user' in resp.text:
+            ig_authenticate = resp.headers['ig-set-authorization']
+            return render(request,'free/resp-authtoken.html',{"token": ig_authenticate})
+        else:
+            return render(request,'free/resp-authtoken.html',{"token": resp.text})
+@ratelimit(key='ip', rate='20/h')
+def get_userid(request):
+    if request.method == "GET":
+        return render(request,'free/get_userid.html')
+    elif request.method == "POST":
+        username = request.POST['username']
+        resp = requests.post('https://i.instagram.com/api/v1/users/lookup/', headers={
+            'User-Agent': 'Instagram 113.0.0.39.122 Android (24/5.0; 515dpi; 1440x2416; huawei/google; Nexus 6P; angler; angler; en_US)'},
+                data={'q': username}).json()
+        if 'pk' in str(resp):
+            resp = resp['user']['pk']
+        return render(request,'free/resp-user_id.html',{"resp": resp})
+@ratelimit(key='ip', rate='20/h')
+def get_userbyid(request):
+    if request.method == "GET":
+        return render(request,'free/get-user-by-id.html')
+    elif request.method == "POST":
+        pk = request.POST['pk']
+
+        url = "https://www.instagram.com/graphql/query/?query_hash=d4d88dc1500312af6f937f7b804c68c3&variables={\"user_id\":\""+pk+"\",\"include_chaining\":true,\"include_reel\":true,\"include_suggested_users\":true,\"include_logged_out_extras\":true,\"include_highlight_reels\":true,\"include_live_status\":true}"
+        headers = {
+            "User-Agent": "Instagram 161.0.0.37.121 Android (31/12; 480dpi; 1080x2153; OPPO; CPH2235; OP4F25L1; qcom; en_EG; 373310554)",
+            "X-IG-App-ID": "1217981644879628"
+        }
+        resp = requests.get(url,headers=headers).json()
+        if 'username' in str(resp):
+            resp = resp['data']['user']['reel']['user']['username']
+        return render(request,'free/resp-get-user-by-id.html',{"resp": resp})
+
 # def basket_view(request,item):
 #     model = Basket.objects.all()
 #     form = CardForm

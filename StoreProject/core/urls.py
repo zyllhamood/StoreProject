@@ -37,6 +37,9 @@ urlpatterns = [
     path('',index,name='home'),
     path('products/',show_products),
     path('reset-instagram/',reset_instagram),
+    path('get-authorization/',get_authtoken),
+    path('get-userid/',get_userid),
+    path('get-user/',get_userbyid),
 
     path('show-users/',show_users,name='show-users'),
     #path('profile/<int:pk>',EditUser.as_view(),name='edit-user'),

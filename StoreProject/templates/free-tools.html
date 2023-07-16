@@ -13,13 +13,29 @@
     
 {% block content %}
 <div class="container cls1">
-    <div>
+    <div style="padding-bottom: 15px;">
         {% for title in groups %}
         <a href="{% url 'group-url' title=title.title %}" id="groupItem" style="background-color: rgb(130, 130, 130);color: rgb(0, 0, 0);">{{title.title}}</a>
         {% endfor %}
     </div>
     
     <div class="row">
+        <div class="col-xl-3">
+            <div style="background-color: silver;" class="shop-card">
+                <img src="{% static 'images/get_userid.PNG' %}" alt="" width="260" height="230">
+                <div class="clsFontTitle">
+                    <a href="/get-userid" class="btn btn-silver" style="width: 250px;background-color: rgb(130, 130, 130);color: rgb(0, 0, 0);">Get user_id</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3">
+            <div style="background-color: silver;" class="shop-card">
+                <img src="{% static 'images/get-user.PNG' %}" alt="" width="260" height="230">
+                <div class="clsFontTitle">
+                    <a href="/get-user" class="btn btn-silver" style="width: 250px;background-color: rgb(130, 130, 130);color: rgb(0, 0, 0);">Get User By ID</a>
+                </div>
+            </div>
+        </div>
         <div class="col-xl-3">
             <div style="background-color: silver;" class="shop-card">
                 <img src="{% static 'images/build-request.png' %}" alt="" width="260" height="230">
@@ -49,6 +65,38 @@
                 <img src="{% static 'images/reset.PNG' %}" alt="" width="260" height="230">
                 <div class="clsFontTitle">
                     <a href="/reset-instagram" class="btn btn-silver" style="width: 250px;background-color: rgb(130, 130, 130);color: rgb(0, 0, 0);">Reset Instagram</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3">
+            <div style="background-color: silver;" class="shop-card">
+                <img src="{% static 'images/get-session.png' %}" alt="" width="260" height="230">
+                <div class="clsFontTitle">
+                    <a href="/get-authorization" class="btn btn-silver" style="width: 250px;background-color: rgb(130, 130, 130);color: rgb(0, 0, 0);">Get Authorization</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3">
+            <div style="background-color: silver;" class="shop-card">
+                <img src="{% static 'images/list_maker.jpg' %}" alt="" width="260" height="230">
+                <div class="clsFontTitle">
+                    <a href="https://top4top.io/downloadf-222745qhe1-zip.html" class="btn btn-silver" style="width: 250px;background-color: rgb(130, 130, 130);color: rgb(0, 0, 0);">List Maker</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3">
+            <div style="background-color: silver;" class="shop-card">
+                <img src="{% static 'images/combo_maker.jpg' %}" alt="" width="260" height="230">
+                <div class="clsFontTitle">
+                    <a href="https://top4top.io/downloadf-2226zqmw11-zip.html" class="btn btn-silver" style="width: 250px;background-color: rgb(130, 130, 130);color: rgb(0, 0, 0);">Combo Maker</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3">
+            <div style="background-color: silver;" class="shop-card">
+                <img src="{% static 'images/savemine.PNG' %}" alt="" width="260" height="230">
+                <div class="clsFontTitle">
+                    <a href="https://t.me/save_mine_bot" class="btn btn-silver" style="width: 250px;background-color: rgb(130, 130, 130);color: rgb(0, 0, 0);">Save Mine</a>
                 </div>
             </div>
         </div>
