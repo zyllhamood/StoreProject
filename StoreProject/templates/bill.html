@@ -22,6 +22,13 @@
             <div style="margin: 5px;background-color: silver;" >
                 
                 <input type="text" name="name" id="name" value="Program">
+                <br>
+                <input type="radio" onclick="change_name(getElementById('RDP'))" name="option" id="RDP" value="RDP">
+                <label for="RDP">RDP</label><br>
+                <input type="radio" onclick="change_name(getElementById('Proxies'))" name="option" id="Proxies" value="Proxies">
+                <label for="Proxies">Proxies</label><br>
+                <input type="number" name="rest" id="rest" step="0.01" value="0">
+                
             </div><hr>
             <div style="margin: 5px;background-color: silver;" >
                 Paid Method : <br>
@@ -52,6 +59,7 @@
 
             <div style="margin: 5px;background-color: silver;" >
             Amount : {{form.amount}}
+            <br>
             </div><hr>
             <div style="margin: 5px;background-color: silver;" >
                 Note : <br>
@@ -69,7 +77,16 @@
             
         </div>
     </div>
-
+    
 </form>
+<script>
+    function change_name(attr){
+        name_attr = document.getElementById('name');
+        console.log(attr.value);
+        name_attr.value = attr.value;
+    }
+    
+    
+</script>
 {% endif %}
 {% endblock content %}

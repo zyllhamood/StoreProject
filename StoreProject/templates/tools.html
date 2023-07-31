@@ -17,7 +17,7 @@
         {% for title in groups %}
             {% if 'tools' in request.get_full_path %}
                 {% if title.type == "Tools" %}
-                    <a href="{% url 'group-url' title=title.title %}" id="groupItem" style="background-color: rgb(130, 130, 130);color: rgb(0, 0, 0);">{{title.title}}</a>
+                    <a href="{% url 'group-url' title=title.title %}" id="groupItem">{{title.title}}</a>
                 {% endif %}
             {% endif %}
         {% endfor %}
@@ -45,7 +45,7 @@
             <div style="background-color: silver;" class="shop-card">
                 <img src="{{item.image.url}}" alt="" width="260" height="230">
                 <div class="clsFontTitle">
-                    <a href="{% url 'info' name=item.name %}" class="btn btn-silver" style="width: 250px;background-color: rgb(130, 130, 130);color: rgb(0, 0, 0);">{{item.name}}</a>
+                    <a href="{% url 'info' name=item.name %}" class="btn btn-silver" id="btn-info">{{item.name}}</a>
                 </div>
                 
                   <div class="clsFontPrice">

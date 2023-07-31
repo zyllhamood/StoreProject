@@ -15,44 +15,32 @@
             </div>
             <div style="margin: 5px;" class="form-control">
                 <img src="{{id.image.url}}" alt="" width="260" height="200">
-                
+
                 {% if id.paid_proxy != "" %}
                 <br>
-                <a target="_blank" class="clsFontName" style="font-size: large;" href="{{id.paid_proxy}}">Video With Paid Proxy</a> ( <a class="" id="titleID" style="font-size: large;color: brown;" href="https://www.zyll.pro/info/6">Buy it</a> )
+                <a target="_blank" class="clsFontName" style="font-size: large;" href="{{id.paid_proxy}}">فيديو شرح</a>
                 {% endif %}
 
                 {% if id.video != "" %}
                 <br>
                 <a target="_blank" class="clsFontName" style="font-size: large;" href="{{id.video}}">Video With Free Proxy</a> (Automatic)
                 {% endif %}
-
-
                 <hr>
                 {{id.dis|safe}}
-                
             </div>
-            
         {% if user.is_authenticated and user.username == "admin" %}
-        <a style="margin-bottom: 10px;" href="{% url 'edit' pk=id.id %}" class="btn btn-secondary">Edit Product</a> <a style="margin-bottom: 10px;" href="{% url 'who-paid' name=id.name %}" class="btn btn-secondary">Who Paid This</a>
-        
-        {% endif %} 
+        <a style="margin-bottom: 10px;" href="{% url 'edit' pk=id.id %}" class="btn btn-secondary">Edit</a> <a style="margin-bottom: 10px;" href="{% url 'who-paid' name=id.name %}" class="btn btn-secondary">Who Paid This</a>
+        <br>
+        {% endif %}
         <div class="content">
             <a href="{{ charge.hosted_url }}" class="btn btn-dark" id="btnBuy">Buy it now for {{id.price}}$</a>
-            
             {% if user.is_authenticated %}
             <a href="{% url 'cart' item=id.name %}" class="btn btn-secondary" id="btnBuy" style="font-size: small;">Add to cart</a>
             {% endif %}
-                
-            
         </div>
-            
-            <!-- <a href="{{ charge.hosted_url }}" class="btn btn-dark" id="btnBuy">Before : <del>{{id.price}}</del> -- Now : {{coupun}} $</a> -->
-            
-            
-            
+            <!--<a href="{{ charge.hosted_url }}" class="btn btn-dark" id="btnBuy">Before : <del>{{id.price}}</del> -- Now : {{coupun}} $</a>-->
         </div>
-        
+
     </div>
 {% endblock content %}
 
-    

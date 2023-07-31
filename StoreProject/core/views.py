@@ -687,6 +687,16 @@ def add_bill(request):
         if form.is_valid():
             
             profile = form.save(commit=False)
+            if(profile.name == "Proxies" or profile.name == "RDP"):
+                s = profile.paid_method
+                rest = request.POST['rest']
+                if('Binance' in s or 'PayPal' in s or 'BTC' in s):
+                    profile.amount =  profile.amount - Decimal(rest)
+                else:
+                    profile.amount = profile.amount / Decimal(3.75)
+                    profile.amount = profile.amount - Decimal(rest)
+                
+            print(profile.amount)
             profile.date = datetime.datetime.now()
             profile.save()
 
@@ -696,7 +706,7 @@ def add_bill(request):
         form = BillForm()
     return render(request, 'bill.html', {'form': form})
 def show_bills(request):
-    model = Bill.objects.all().order_by('-date')
+    model = Bill.objects.filter(date__month=datetime.datetime.now().month).order_by('-date')
     
     incomes_us = 0.0
     incomes_sa = 0.0
