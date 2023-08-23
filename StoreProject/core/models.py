@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 # Create your models here.
-from datetime import datetime
+import datetime
 
 class Product(models.Model):
     name = models.CharField(max_length=255)
@@ -88,5 +88,18 @@ class Bill(models.Model):
     amount = models.DecimalField(max_digits=12, decimal_places=2,default=0.00)
     note = models.TextField(blank=True)
     date = models.DateTimeField()
+    def __str__(self):
+        return self.name
+class Request(models.Model):
+    username = models.CharField(max_length=255,default='')
+    name = models.CharField(max_length=255,default='')
+    method = models.CharField(max_length=25,default='')
+    url = models.CharField(max_length=1000,default='')
+    headers = models.TextField(default='')
+    data = models.TextField(default='',blank=True)
+    status_code = models.CharField(max_length=10,default='')
+    response = models.TextField(default='')
+    cookies = models.TextField(default='')
+    date = models.DateTimeField(default=datetime.datetime.now())
     def __str__(self):
         return self.name

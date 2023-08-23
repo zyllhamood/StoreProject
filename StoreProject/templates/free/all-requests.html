@@ -12,17 +12,13 @@
     
     <div style="background-color: silver;" class="shop-card">
         <div>
-            <h5>StatusCode : {{status_code}}</h5>
-        </div>
-        <hr>
-        <div>
-            <h5>Response</h5>
-            <p style="word-wrap: break-word;">{{text}}</p>
-        </div>
-        <hr>
-        <div>
-            <h5>Cookies</h5>
-            <p>{{cookies}}</p>
+            
+            {% for item in model %}
+                <a id="aRequest" href="/info-request/{{item.pk}}">{{item}}</a>
+                
+                <hr>
+            {% endfor %}
+                
         </div>
     </div>
     

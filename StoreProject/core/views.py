@@ -312,6 +312,9 @@ def call_request(request):
     if request.method == "GET":
         return render(request, 'free/call-request.html')
     elif request.method == "POST":
+        username = request.user.username
+        
+        name_request = request.POST['name_request']
         method = request.POST['method']
         url = request.POST['url']
         headers = request.POST['headers']
@@ -330,12 +333,25 @@ def call_request(request):
                 if 'latin-1' in str(e):
                     resp = requests.post(
                         url, headers=head, data=data.encode('utf-8'))
+            
+                
         else:
             resp = requests.get(url, headers=head)
-        print(resp.text)
+        if username != '':
+            info_request = Request.objects.create(username=username,name=name_request,method=method,url=url,headers=head,data=data,
+                                                    status_code=resp.status_code,response=resp.text,cookies=resp.cookies,date=datetime.datetime.now())
+            info_request.save()
         content = {"text": resp.text,
                    "status_code": resp.status_code, "cookies": resp.cookies}
         return render(request, 'free/show-response.html', content)
+
+def all_requests(request):
+    model = Request.objects.filter(username=request.user.username).order_by('-date')
+
+    return render(request,'free/all-requests.html',{"model": model})
+def info_request(request,pk):
+    model = Request.objects.get(pk=pk)
+    return render(request,'free/info-request.html',{"model":model})
 
 
 def made_request(request):
@@ -695,6 +711,7 @@ def add_bill(request):
                 else:
                     profile.amount = profile.amount / Decimal(3.75)
                     profile.amount = profile.amount - Decimal(rest)
+                    profile.amount = profile.amount * profile.amount
                 
             print(profile.amount)
             profile.date = datetime.datetime.now()

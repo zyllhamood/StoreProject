@@ -9,10 +9,16 @@
 {% endblock status %}
 {% block content %}
 <div class="container">
+    <a style="color: darkblue;" href="{% url 'all-requests' %}">Show Me All My Requests</a>
     <div style="padding-bottom: 15px;"></div>
     <form action="" method="post">
         {% csrf_token %}
         <div style="background-color: silver;" class="shop-card">
+            <div class="name_request">
+                <label for="name_request">Name Request : </label>
+                <input type="text" class="textName" name="name_request" id="name_request">
+                
+            </div>
             <div class="radio-switch">
                 <input id="POST" type="radio" name="method" checked="checked" value="POST"/>
                 <label for="POST">POST</label>

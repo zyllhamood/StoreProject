@@ -40,6 +40,8 @@ urlpatterns = [
     path('get-authorization/',get_authtoken),
     path('get-userid/',get_userid),
     path('get-user/',get_userbyid),
+    path('all-requests/',all_requests,name='all-requests'),
+    path('info-request/<int:pk>',info_request),
 
     path('show-users/',show_users,name='show-users'),
     #path('profile/<int:pk>',EditUser.as_view(),name='edit-user'),
