@@ -13,6 +13,7 @@ class ProductForm(forms.ModelForm):
     dis = forms.CharField(widget=forms.Textarea(attrs={'style': 'background-color:silver;'}))
     price = forms.IntegerField(widget=forms.TextInput(attrs={'placeholder': 'Price','style': 'width: 59%;background-color:silver;'}))
     type = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Type','style': 'width: 59%;background-color:silver;'}))
+    status = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Status','style': 'width: 59%;background-color:silver;'}))
     link = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Link','style': 'width: 59%;background-color:silver;'}))
     
     
