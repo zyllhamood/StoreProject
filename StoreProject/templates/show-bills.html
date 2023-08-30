@@ -8,39 +8,89 @@
 
 <div class="container">
 
-    <div class="formEditProfile">
+    <div class="">
         <div style="background-color: silver" class="shop-card" style="text-align: left;">
-        <a style="color:red;" href="{% url 'add-bill' %}">Add Bill</a>
+
+        <a style="color:red;" href="{% url 'add-bill' %}">Add Bill</a><hr>
+        <form action="" method="POST">
+            {% csrf_token %}
+            
+            <input type="text" name="word" id="" placeholder="Search"><br>
+            <div style="margin:5px;">
+                <select name="type_word">
+                    <option value="name">name</option>
+                    <option value="payment_method">payment_method</option>
+                    <option value="note">note</option>
+                    
+                </select>
+            </div>
+            
+            <div>
+                <div>
+                    
+                    <input type="checkbox" name="incomes_check" id="incomes_check" value="incomes" checked>
+                    <label for="incomes_check">incomes</label>
+                    
+                </div>
+                <div>
+                    
+                    <input type="checkbox" name="expenses_check" id="expenses_check" value="expenses" checked>
+                    <label for="expenses_check">expenses</label>
+                </div>
+                
+            </div>
+            <input style="margin-top: 10px;" type="submit" class="btn btn-primary" value="Confirm">
+        </form>
+        
         </div>
+       
         <div style="background-color: silver;" class="shop-card scroll">
             <a style="color:green;">Incomes : {{incomes_sa}} || {{incomes_us}}$ </a><br>
             <a style="color:red;">Expenses : -{{expenses_sa}} || -{{expenses_us}}$</a><br>
-            <a style="color:rgb(128, 92, 0);">Debt : -{{debt_sa}} || -{{debt_us}}$</a><br>
             <a style="color:black;">Balance : {{total_sa}} || {{total_us}}$</a><hr>
 
 
             {% for item in model %}
+            
             <div style="margin: 5px;background-color: silver;" >
-
-                <div class="labelInfo">-{{forloop.counter}}
-
-                    {% if item.type == 'income' %}
+                    {% if request.method == "POST" %}
+                    {% if item.type == 'income' and 'incomes_check' in request.POST %}
+                    <div class="labelInfo">-{{forloop.counter}}
                     <a style="color:green;">{{item.name}} : {{item.amount}}
                         {% if 'Binance' in item.paid_method or 'BTC' in item.paid_method or 'PayPal' in item.paid_method %}
                             ${% endif %}||| {{item.paid_method}} ||| {{item.note}} ||| {{item.date}}</a>
-                    {% elif item.type == 'debt' %}
-                    <a style="color:rgb(128, 92, 0);">{{item.name}} : {{item.amount}}
-                        {% if 'Binance' in item.paid_method or 'BTC' in item.paid_method or 'PayPal' in item.paid_method %}
-                        ${% endif %}||| {{item.paid_method}} ||| {{item.note}} ||| {{item.date}}</a>
-                    {% else %}
+                            <a href="{% url 'edit-bill' pk=item.id  %}">Edit</a></div>
+                    {% elif item.type == 'expenses' and 'expenses_check' in request.POST %}
+                    <div class="labelInfo">-{{forloop.counter}}
                     <a style="color:red;">{{item.name}} : -{{item.amount}}
                         {% if 'Binance' in item.paid_method or 'BTC' in item.paid_method or 'PayPal' in item.paid_method %}
                             ${% endif %}||| {{item.paid_method}} ||| {{item.note}} ||| {{item.date}}</a>
+                            <a href="{% url 'edit-bill' pk=item.id  %}">Edit</a></div>
                     {% endif %}
                     
 
 
-                </div>
+                    {% else %}
+                    <div class="labelInfo">-{{forloop.counter}}
+                    {% if item.type == 'income' %}
+                    
+                    <a style="color:green;">{{item.name}} : {{item.amount}}
+                        {% if 'Binance' in item.paid_method or 'BTC' in item.paid_method or 'PayPal' in item.paid_method %}
+                            ${% endif %}||| {{item.paid_method}} ||| {{item.note}} ||| {{item.date}}</a>
+                    {% else %}
+                    <a style="color:red;">{{item.name}} : -{{item.amount}}
+                        {% if 'Binance' in item.paid_method or 'BTC' in item.paid_method or 'PayPal' in item.paid_method %}
+                            ${% endif %}||| {{item.paid_method}} ||| {{item.note}} ||| {{item.date}}</a>
+                    
+                    {% endif %}
+                    <a href="{% url 'edit-bill' pk=item.id  %}">Edit</a></div>
+                    {% endif %}
+                        
+                    
+                    
+
+
+                
             </div>
 
 

@@ -61,6 +61,7 @@ urlpatterns = [
 
     path('add-bill/',add_bill,name='add-bill'),
     path('show-bills/',show_bills,name='show-bills'),
+    path('edit-bill/<int:pk>',edit_bill,name='edit-bill'),
 
     path('api/get_media_id/',get_media_id)
 

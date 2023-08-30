@@ -20,9 +20,9 @@
         <div style="background-color: silver;" class="shop-card formEditProfile">
             {% csrf_token %}
             <div style="margin: 5px;background-color: silver;" >
-                
-                <input type="text" name="name" id="name" value="Program">
+                <input type="text" name="name" id="name" value="{{bill.name}}">
                 <br>
+                
                 <input type="radio" onclick="change_name(getElementById('RDP'))" name="option" id="RDP" value="RDP">
                 <label for="RDP">RDP</label><br>
                 <input type="radio" onclick="change_name(getElementById('Proxies'))" name="option" id="Proxies" value="Proxies">
@@ -32,6 +32,7 @@
             <div style="margin: 5px;background-color: silver;" >
                 Paid Method : <br>
                 <select name="paid_method">
+                    <option value="{{bill.paid_method}}">{{bill.paid_method}}</option>
                     <option value="Binance">Binance</option>
                     <option value="StcPay Nader">StcPay Nader</option>
                     <option value="Ahli Waill">Ahli Waill</option>
@@ -49,6 +50,7 @@
             <div style="margin: 5px;background-color: silver;" >
                 Type : <br>
                 <select name="type">
+                    <option value="{{bill.type}}">{{bill.type}}</option>
                     <option value="income">income</option>
                     <option value="expenses">expenses</option>
                     
@@ -61,7 +63,7 @@
             </div><hr>
             <div style="margin: 5px;background-color: silver;" >
                 Note : <br>
-                <input type="text" name="note" id="note" value="">
+                <input type="text" name="note" id="note" value="{{bill.note}}">
                 
                 
             </div>

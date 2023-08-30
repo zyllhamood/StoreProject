@@ -181,7 +181,6 @@ def login_page(request):
                 login(request, user)
                 return redirect('profile')
             else:
-                print('wrong username or password')
                 return redirect('loginurl')
 
 
@@ -222,7 +221,6 @@ class EditProfileView(generic.UpdateView):
 #@ratelimit(key='ip', rate='3/h')
 def edit_profile(request, pk):
     obj = get_object_or_404(Profile, pk=pk)
-    print(obj)
     if request.method == 'POST':
         serials = Serial.objects.all()
         myserial = request.POST['serial']
@@ -234,7 +232,6 @@ def edit_profile(request, pk):
             who_edit = WhoEditSerial.objects.create(user=request.user.username,date=datetime.datetime.now())
             who_edit.save()
             add_serial = Serial.objects.create(user=request.user.username,serial=request.POST['serial'])
-            print(request.POST['serial'])
             add_serial.save()
             return redirect('profile')
     else:
@@ -269,7 +266,6 @@ def rdp_control(request):
 
 def action_rdp(request, action):
     model = RDP.objects.get(user=request.user)
-    print(model.inovie_rdp)
     url = f'https://hostdzire.com/billing/index.php?avmAction={action}&avmServiceId={str(model.inovie_rdp)}'
     Headers = {
         "Host": "hostdzire.com",
@@ -359,7 +355,6 @@ def made_request(request):
         return render(request, 'free/request-function.html')
     elif request.method == "POST":
         method = request.POST['method']
-        print(method)
         type = request.POST['type']
         url = request.POST['url']
         headers = request.POST['headers']
@@ -481,7 +476,6 @@ def edit_user(request, pk):
             new = get_object_or_404(Profile, pk=pk)
             for product in new.product.all():
                 if product not in old:
-                    print(obj)
                     dt = datetime.datetime.now()
                     
                     formatted_dt = dt.strftime('%Y-%m-%d %H:%M')
@@ -703,17 +697,8 @@ def add_bill(request):
         if form.is_valid():
             
             profile = form.save(commit=False)
-            if(profile.name == "Proxies" or profile.name == "RDP"):
-                s = profile.paid_method
-                rest = request.POST['rest']
-                if('Binance' in s or 'PayPal' in s or 'BTC' in s):
-                    profile.amount =  profile.amount - Decimal(rest)
-                else:
-                    profile.amount = profile.amount / Decimal(3.75)
-                    profile.amount = profile.amount - Decimal(rest)
-                    profile.amount = profile.amount * profile.amount
+            
                 
-            print(profile.amount)
             profile.date = datetime.datetime.now()
             profile.save()
 
@@ -722,30 +707,84 @@ def add_bill(request):
     else:
         form = BillForm()
     return render(request, 'bill.html', {'form': form})
-def show_bills(request):
-    model = Bill.objects.filter(date__month=datetime.datetime.now().month).order_by('-date')
+def edit_bill(request, pk):
+    bill = get_object_or_404(Bill, pk=pk)
+    if request.method == 'POST':
+        # Populate the form with the existing bill data
+        form = BillForm(request.POST, instance=bill)
+        if form.is_valid():
+            edited_bill = form.save(commit=False)
+            
+            # Update the date (if needed)
+            edited_bill.date = bill.date
+            edited_bill.save()
+            
+            return redirect('show-bills')
+    else:
+        # Create a form populated with the existing bill data
+        form = BillForm(instance=bill)
     
-    incomes_us = 0.0
-    incomes_sa = 0.0
-    expenses_us = 0.0
-    expenses_sa = 0.0
-    total_sa = 0.0
-    total_us = 0.0
-    for item in model:
-        if item.type == 'income':
-            if 'Binance' in item.paid_method or 'BTC' in item.paid_method or 'PayPal' in item.paid_method:
-                incomes_us = Decimal(incomes_us) + item.amount
+    return render(request, 'edit-bill.html', {'form': form,"bill":bill})
+    
+def show_bills(request):
+    
+    if request.method == "GET":
+        incomes_us = 0.0
+        incomes_sa = 0.0
+        expenses_us = 0.0
+        expenses_sa = 0.0
+        total_sa = 0.0
+        total_us = 0.0
+        model = Bill.objects.filter(date__month=datetime.datetime.now().month).order_by('-date')
+        for item in model:
+            if item.type == 'income':
+                if 'Binance' in item.paid_method or 'BTC' in item.paid_method or 'PayPal' in item.paid_method:
+                    incomes_us = Decimal(incomes_us) + item.amount
+                else:
+                    incomes_sa = Decimal(incomes_sa) + item.amount
             else:
-                incomes_sa = Decimal(incomes_sa) + item.amount
+                if 'Binance' in item.paid_method or 'BTC' in item.paid_method or 'PayPal' in item.paid_method:
+                    expenses_us = Decimal(expenses_us) + item.amount
+                else:
+                    expenses_sa = Decimal(expenses_sa) + item.amount
+        total_sa = Decimal(incomes_sa) - Decimal(expenses_sa)
+        total_us = Decimal(incomes_us) - Decimal(expenses_us)
+        content = {"model": model,"expenses_sa":expenses_sa,"expenses_us":expenses_us,"incomes_us":incomes_us,"incomes_sa":incomes_sa,"total_sa":total_sa,"total_us":total_us}
+        return render(request, 'show-bills.html', content)
+    elif request.method == "POST":
+
+        incomes_us = 0.0
+        incomes_sa = 0.0
+        expenses_us = 0.0
+        expenses_sa = 0.0
+        total_sa = 0.0
+        total_us = 0.0
+        word = request.POST["word"]
+        word_name = request.POST["type_word"]
+        if word_name == 'name':
+            model = Bill.objects.filter(name__contains=word,date__month=datetime.datetime.now().month).order_by('-date')
+        elif word_name == 'payment_method':
+            model = Bill.objects.filter(paid_method__contains=word,date__month=datetime.datetime.now().month).order_by('-date')
         else:
-            if 'Binance' in item.paid_method or 'BTC' in item.paid_method or 'PayPal' in item.paid_method:
-                expenses_us = Decimal(expenses_us) + item.amount
-            else:
-                expenses_sa = Decimal(expenses_sa) + item.amount
-    total_sa = Decimal(incomes_sa) - Decimal(expenses_sa)
-    total_us = Decimal(incomes_us) - Decimal(expenses_us)
-    content = {"model": model,"expenses_sa":expenses_sa,"expenses_us":expenses_us,"incomes_us":incomes_us,"incomes_sa":incomes_sa,"total_sa":total_sa,"total_us":total_us}
-    return render(request, 'show-bills.html', content)
+            model = Bill.objects.filter(note__contains=word,date__month=datetime.datetime.now().month).order_by('-date')
+        #model = Bill.objects.filter(name__contains=word,date__month=datetime.datetime.now().month).order_by('-date')
+        for item in model:
+            if item.type == 'income':
+                if 'incomes_check' in request.POST:
+                    if 'Binance' in item.paid_method or 'BTC' in item.paid_method or 'PayPal' in item.paid_method:
+                        incomes_us = Decimal(incomes_us) + item.amount
+                    else:
+                        incomes_sa = Decimal(incomes_sa) + item.amount
+            elif item.type == "expenses":
+                if 'expenses_check' in request.POST:
+                    if 'Binance' in item.paid_method or 'BTC' in item.paid_method or 'PayPal' in item.paid_method:
+                        expenses_us = Decimal(expenses_us) + item.amount
+                    else:
+                        expenses_sa = Decimal(expenses_sa) + item.amount
+        total_sa = Decimal(incomes_sa) - Decimal(expenses_sa)
+        total_us = Decimal(incomes_us) - Decimal(expenses_us)
+        content = {"model": model,"expenses_sa":expenses_sa,"expenses_us":expenses_us,"incomes_us":incomes_us,"incomes_sa":incomes_sa,"total_sa":total_sa,"total_us":total_us}
+        return render(request, 'show-bills.html', content)
 
 @csrf_exempt
 @require_POST
