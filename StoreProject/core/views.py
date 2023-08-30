@@ -75,24 +75,30 @@ def tools(request):
     return render(request, 'tools.html', content)
 
 
-def info(request, name=None):
+def info(request,name=None):
+    model = Product.objects.get(name=name)
+    content = {"id": model}
+    return render(request,'info-product.html',content)
+
+def payment_view(request, name=None):
     model = Product.objects.get(name=name)
     # client = Client(api_key=settings.COINBASE_COMMERCE_API_KEY)
     # product = {
     #     'name': model.name,
-    #     'local_price':{
-    #         'amount': model.price,
+    #     'local_price': {
+    #         'amount': str(model.price),
     #         'currency': 'USD'
-    #         } ,
+    #     },
     #     'pricing_type': 'fixed_price',
+
+
     # }
     # charge = client.charge.create(**product)
     content = {
-        "id": model,
-        # "charge": charge,
+        "form": model,
+        #"charge": charge
     }
-    return render(request, 'info-product.html', content)
-
+    return render(request, 'payment-method.html', content)
 
 class NewProduct(generic.edit.CreateView):
     model = Product
@@ -143,25 +149,7 @@ def groups_view(request, title):
     return render(request, 'groups.html', {"content": model.product.all().order_by('id_place'), "groups": groups})
 
 
-def payment_view(request, pk):
-    model = Product.objects.get(pk=pk)
-    client = Client(api_key=settings.COINBASE_COMMERCE_API_KEY)
-    product = {
-        'name': model.name,
-        'local_price': {
-            'amount': str(model.price),
-            'currency': 'USD'
-        },
-        'pricing_type': 'fixed_price',
 
-
-    }
-    charge = client.charge.create(**product)
-    content = {
-        "form": model,
-        "charge": charge
-    }
-    return render(request, 'payment-method.html', content)
 
 
 @ratelimit(key='ip', rate='5/m')

@@ -18,15 +18,22 @@
             {{form.price}}$
           </div>
         <div>
-            Please Choose Your Payment Method : 
+            <br>
+            <h4>Please Choose Your Payment Method : </h4>
             <div id="payment-method">
-                <a href="{{ charge.hosted_url }}" id="buttonPayment"><img src="{% static 'images/btc.png' %}" style="width: 25px;" >  <img src="{% static 'images/usdt.png' %}" style="width: 25px;" >  <img src="{% static 'images/eth.png' %}" style="width: 25px;" ></a>
+                <a href="{{ charge.hosted_url }}" id="buttonPayment"><img src="{% static 'images/btc.png' %}" style="width: 25px;" >  <img src="{% static 'images/usdt.png' %}" style="width: 25px;" > <img src="{% static 'images/ltc.png' %}" style="width: 25px;" > <img src="{% static 'images/eth.png' %}" style="width: 25px;" > <img src="{% static 'images/matic.png' %}" style="width: 25px;" > <img src="{% static 'images/doge.png' %}" style="width: 25px;" ></a>
+            
+            </div><hr>
+            <h6>If your payment method one of these please text me on <a target="_blank" href="https://www.instagram.com/zyll/">Instagram</a> or <a target="_blank" href="https://t.me/zyllhamood">Telegram</a></h6>
+            <div id="payment-method">
+                <a href="https://www.instagram.com/zyll/" id="buttonPayment"><img src="{% static 'images/paypal3.png' %}" style="width: 100px;height: 30px;"></a>
+                <a href="https://www.instagram.com/zyll/" id="buttonPayment"><img src="{% static 'images/stc-pay.png' %}" style="width: 100px;height: 30px;"></a>
+                <a href="https://www.instagram.com/zyll/" id="buttonPayment"><img src="{% static 'images/arc-logo.png' %}" style="width: 100px;height: 30px;"></a>
+                <!-- <a href="" id="buttonPayment"><img src="{% static 'images/Binance-logo.png' %}" style="width: 100px;height: 30px;"></a> -->
+                <a href="https://www.instagram.com/zyll/" id="buttonPayment"><img src="{% static 'images/Stc-logo.png' %}" style="width: 100px;height: 30px;"></a>
             </div>
             <div id="payment-method">
-                <a href="" id="buttonPayment"><img src="{% static 'images/paypal2.png' %}" style="width: 70px;height: 30px;"></a>
-            </div>
-            <div id="payment-method">
-                <a href="" id="buttonPayment"><img src="{% static 'images/stc-pay.png' %}" style="width: 70px;height: 15px;"></a>
+                
             </div>
         </div>
 

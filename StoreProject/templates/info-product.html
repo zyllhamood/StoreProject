@@ -33,7 +33,7 @@
         <br>
         {% endif %}
         <div class="content">
-            <a href="{{ charge.hosted_url }}" class="btn btn-dark" id="btnBuy">Buy it now for {{id.price}}$</a>
+            <a href="{% url 'payment' name=id.name %}" class="btn btn-dark" id="btnBuy">Buy it now for {{id.price}}$</a>
             {% if user.is_authenticated %}
             <a href="{% url 'cart' item=id.name %}" class="btn btn-secondary" id="btnBuy" style="font-size: small;">Add to cart</a>
             {% endif %}
