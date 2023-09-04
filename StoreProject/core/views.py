@@ -533,6 +533,21 @@ class CreateProfile(generic.CreateView):
     template_name = "edit-user.html"
     success_url = '/show-users/'
 
+def create_profile(request):
+    obj = get_object_or_404(Profile)
+    form  = EditProfile(request.POST, instance=obj)
+    if request.method == 'POST':
+        form = EditProfile(request.POST, instance=obj)
+        if form.is_valid():
+            form.save()
+            new = get_object_or_404(Profile)
+            for product in new.product.all():
+                dt = datetime.datetime.now()
+                formatted_dt = dt.strftime('%Y-%m-%d %H:%M')
+                productpaid = ProductsPaid.objects.create(user=obj.email_or_username,item=str(product),date=formatted_dt)
+                productpaid.save()
+            return redirect('show-users')
+    return render(request, 'edit-user.html', {'form': form})
 
 def info_instagram(user, session):
     headers = {

@@ -46,7 +46,9 @@ urlpatterns = [
     path('show-users/',show_users,name='show-users'),
     #path('profile/<int:pk>',EditUser.as_view(),name='edit-user'),
     path('profile/<int:pk>',edit_user,name='edit-user'),
-    path('profile/new/',CreateProfile.as_view(),name='new-profile'),
+    
+    #path('profile/new/',CreateProfile.as_view(),name='new-profile'),
+    path('profile/new/',create_profile,name='new-profile'),
 
     path('delete-product/<int:pk>',delete_product,name='delete-product'),
 
