@@ -82,22 +82,40 @@ def info(request,name=None):
 
 def payment_view(request, name=None):
     model = Product.objects.get(name=name)
-    # client = Client(api_key=settings.COINBASE_COMMERCE_API_KEY)
-    # product = {
-    #     'name': model.name,
-    #     'local_price': {
-    #         'amount': str(model.price),
-    #         'currency': 'USD'
-    #     },
-    #     'pricing_type': 'fixed_price',
-
-
-    # }
-    # charge = client.charge.create(**product)
-    content = {
-        "form": model,
-        #"charge": charge
-    }
+    is_coupun = False
+    if is_coupun == True:
+        new_price = get_coupun(model.price)
+        client = Client(api_key=settings.COINBASE_COMMERCE_API_KEY)
+        product = {
+            'name': model.name,
+            'local_price': {
+                'amount': str(new_price),
+                'currency': 'USD'
+            },
+            'pricing_type': 'fixed_price',
+        }
+        charge = client.charge.create(**product)
+        content = {
+            "form": model,
+            "new_price": new_price,
+            "is_coupun": is_coupun,
+            "charge": charge
+        }
+    else:
+        client = Client(api_key=settings.COINBASE_COMMERCE_API_KEY)
+        product = {
+            'name': model.name,
+            'local_price': {
+                'amount': str(model.price),
+                'currency': 'USD'
+            },
+            'pricing_type': 'fixed_price',
+        }
+        charge = client.charge.create(**product)
+        content = {
+            "form": model,
+            "charge": charge
+        }
     return render(request, 'payment-method.html', content)
 
 class NewProduct(generic.edit.CreateView):

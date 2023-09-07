@@ -15,7 +15,14 @@
             {{form.name}}
         </div>
         <div class="clsFontPrice">
+            
+            {% if is_coupun == True %}
+            <del>{{form.price}}$</del> => {{new_price}}$
+            {% else %}
             {{form.price}}$
+            {% endif %}
+                
+            
           </div>
         <div>
             <br>
